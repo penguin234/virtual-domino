@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title> Library 3D-Elements Test </title>
+
+        <script src='matrix4by4.js'></script>
+    </head>
+
+    <body>
+        <script>
+            let m1 = new Matrix4By4(
+                1, 2, 3, 4,
+                5, 6, 7, 8,
+                9, 10, 11, 12,
+                13, 14, 15, 16
+            );
+
+            let m2 = new Matrix4By4(
+                2, 2, 2, 2,
+                2, 2, 2, 2,
+                2, 2, 2, 2,
+                2, 2, 2, 2
+            );
+
+            console.log('m1 before');
+            m1.log();
+            console.log('m2 before');
+            m2.log();
+
+            console.log('add 2');
+            m1.sub(m2);
+
+            console.log('m1 after');
+            m1.log();
+            console.log('m2 after');
+            m2.log();
+        </script>
+    </body>
+</html>
