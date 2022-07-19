@@ -56,3 +56,22 @@ Matrix4By4.prototype.sub = function(m) {
 
     return this;
 };
+
+Matrix4By4.prod = function(m1, m2) {
+    res = new Matrix4By4(
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+    );
+
+    for (const rowindex in res.matrix) {
+        for (const colindex in res.matrix[rowindex]) {
+            for (let k = 0; k < 4; k++) {
+                res.matrix[rowindex][colindex] += m1.matrix[rowindex][k] * m2.matrix[k][colindex];
+            }
+        }
+    }
+
+    return res;
+};

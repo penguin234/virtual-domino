@@ -21,6 +21,13 @@
                 2, 2, 2, 2
             );
 
+            let m3 = new Matrix4By4(
+                1, 0, 0, 0,
+                1, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            );
+
             console.log('m1 before');
             m1.log();
             console.log('m2 before');
@@ -33,6 +40,20 @@
             m1.log();
             console.log('m2 after');
             m2.log();
+
+            console.log()
+            console.log('m1');
+            m1.log();
+            console.log()
+            console.log('*')
+            console.log()
+            console.log('m3')
+            m3.log()
+            console.log()
+            console.log('=')
+            console.log()
+            Matrix4By4.prod(m1, m3).log();
+            console.log()
         </script>
     </body>
 </html>
