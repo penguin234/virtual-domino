@@ -2,55 +2,62 @@
     <head>
         <title> Library 3D-Elements Test </title>
 
+        <script src='vector3d.js'></script>
         <script src='matrix4by4.js'></script>
     </head>
 
     <body>
         <script>
-            let m1 = new Matrix4By4(
-                1, 2, 3, 4,
-                5, 6, 7, 8,
-                9, 10, 11, 12,
-                13, 14, 15, 16
-            );
+            function TestMatrix4By4() {
+                let m1 = new Matrix4By4(
+                    1, 2, 3, 4,
+                    5, 6, 7, 8,
+                    9, 10, 11, 12,
+                    13, 14, 15, 16
+                );
 
-            let m2 = Matrix4By4.fromArray(
-                Array(4).fill(Array(4).fill(2))
-            );
+                let m2 = Matrix4By4.fromArray(
+                    Array(4).fill(Array(4).fill(2))
+                );
 
-            let m3 = new Matrix4By4(
-                1, 0, 0, 0,
-                1, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1
-            );
+                let m3 = Matrix4By4.unit().mult(3);
 
-            console.log('m1 before');
-            m1.log();
-            console.log('m2 before');
-            m2.log();
+                console.log('m1 before');
+                m1.log();
+                console.log('m2 before');
+                m2.log();
 
-            console.log('add 2');
-            m1.sub(m2);
+                console.log('add 2');
+                m1.sub(m2);
 
-            console.log('m1 after');
-            m1.log();
-            console.log('m2 after');
-            m2.log();
+                console.log('m1 after');
+                m1.log();
+                console.log('m2 after');
+                m2.log();
 
-            console.log()
-            console.log('m1');
-            m1.log();
-            console.log()
-            console.log('*')
-            console.log()
-            console.log('m3')
-            m3.log()
-            console.log()
-            console.log('=')
-            console.log()
-            Matrix4By4.prod(m1, m3).log();
-            console.log()
+                console.log();
+                console.log('m1');
+                m1.log();
+                console.log();
+                console.log('*');
+                console.log();
+                console.log('m3');
+                m3.log();
+                console.log();
+                console.log('=');
+                console.log();
+                Matrix4By4.prod(m1, m3).log();
+                console.log();
+            }
+
+            function TestRotation() {
+                console.log(rotation);
+            }
+        </script>
+
+        <script>
+            TestMatrix4By4();
+            //TestRotation();
         </script>
     </body>
 </html>

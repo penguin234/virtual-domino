@@ -21,6 +21,15 @@ Matrix4By4.fromArray = function(matrix) {
     );
 };
 
+Matrix4By4.unit = function() {
+    return new Matrix4By4(
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    );
+};
+
 Matrix4By4.prototype.copy = function() {
     return new Matrix4By4(
         this.matrix[0][0], this.matrix[0][1], this.matrix[0][2], this.matrix[0][3],
@@ -38,6 +47,16 @@ Matrix4By4.prototype.log = function() {
         }
         console.log(line);
     }
+};
+
+Matrix4By4.prototype.read = function(row, col) {
+    return this.matrix[row][col];
+};
+
+Matrix4By4.prototype.write = function(row, col, val) {
+    this.matrix[row][col] = val;
+
+    return this;
 };
 
 Matrix4By4.prototype.mult = function(c) {
