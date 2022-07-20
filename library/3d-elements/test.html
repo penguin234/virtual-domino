@@ -4,6 +4,10 @@
 
         <script src='vector3d.js'></script>
         <script src='matrix4by4.js'></script>
+        <script src='../3d-transforms/applier.js'></script>
+        <script src='../3d-transforms/rotation.js'></script>
+        <script src='../3d-transforms/scale.js'></script>
+        <script src='../3d-transforms/translate.js'></script>
     </head>
 
     <body>
@@ -20,7 +24,7 @@
                     Array(4).fill(Array(4).fill(2))
                 );
 
-                let m3 = Matrix4By4.unit().mult(3);
+                let m3 = Matrix4By4.unit().mult(3).write(0, 0, -1);
 
                 console.log('m1 before');
                 m1.log();
@@ -53,11 +57,33 @@
             function TestRotation() {
                 console.log(rotation);
             }
+
+            function TestScale() {
+                let v = new Vector3D(2, -1, 4);
+                console.log('from vector');
+                v.log();
+
+                console.log('Scale(2, 3, 4)');
+                let s = Applier.apply(v, Scale(2, 3, 4).matrix);
+                s.log();
+            }
+
+            function TestTranslate() {
+                let v = new Vector3D(2, 2, 2);
+                console.log('from vector');
+                v.log();
+
+                console.log('Translate(3, -4, 1)');
+                let s = Applier.apply(v, Translate(3, -4, 1).matrix);
+                s.log();
+            }
         </script>
 
         <script>
-            TestMatrix4By4();
+            //TestMatrix4By4();
             //TestRotation();
+            TestScale();
+            TestTranslate();
         </script>
     </body>
 </html>
