@@ -12,6 +12,15 @@ function Matrix4By4(
     ];
 }
 
+Matrix4By4.fromArray = function(matrix) {
+    return new Matrix4By4(
+        matrix[0][0], matrix[0][1], matrix[0][2], matrix[0][3],
+        matrix[1][0], matrix[1][1], matrix[1][2], matrix[1][3],
+        matrix[2][0], matrix[2][1], matrix[2][2], matrix[2][3],
+        matrix[3][0], matrix[3][1], matrix[3][2], matrix[3][3]
+    );
+};
+
 Matrix4By4.prototype.copy = function() {
     return new Matrix4By4(
         this.matrix[0][0], this.matrix[0][1], this.matrix[0][2], this.matrix[0][3],

@@ -14,11 +14,8 @@
                 13, 14, 15, 16
             );
 
-            let m2 = new Matrix4By4(
-                2, 2, 2, 2,
-                2, 2, 2, 2,
-                2, 2, 2, 2,
-                2, 2, 2, 2
+            let m2 = Matrix4By4.fromArray(
+                Array(4).fill(Array(4).fill(2))
             );
 
             let m3 = new Matrix4By4(
