@@ -5,13 +5,21 @@
         <script src='vector3d.js'></script>
         <script src='matrix4by4.js'></script>
         <script src='../3d-transforms/applier.js'></script>
-        <script src='../3d-transforms/rotation.js'></script>
+        <script src='../3d-transforms/rotate.js'></script>
         <script src='../3d-transforms/scale.js'></script>
         <script src='../3d-transforms/translate.js'></script>
     </head>
 
     <body>
         <script>
+            function TestVector3D() {
+                let v1 = new Vector3D(2, 2, 0);
+                console.log('v1');
+                v1.log();
+                console.log('v1 normalized');
+                v1.normalize().log();
+            }
+
             function TestMatrix4By4() {
                 let m1 = new Matrix4By4(
                     1, 2, 3, 4,
@@ -55,7 +63,35 @@
             }
 
             function TestRotation() {
-                console.log(rotation);
+                let v1 = new Vector3D(1, 0, 0);
+                let a1 = new Vector3D(0, 1, 0);
+                let r1 = Applier.apply(v1, Rotate(a1, Math.PI / 2).matrix);
+                console.log('r1 should be (0, 0, -1):');
+                r1.log();
+
+                let v2 = new Vector3D(3, 0, 0);
+                let a2 = new Vector3D(2, 2, 0);
+                let r2 = Applier.apply(v2, Rotate(a2, Math.PI).matrix);
+                console.log('r2 should be (0, 3, 0):');
+                r2.log();
+
+                let v3 = new Vector3D(0, 0, 2);
+                let a3 = new Vector3D(1, 0, Math.sqrt(3));
+                let r3 = Applier.apply(v3, Rotate(a3, Math.PI).matrix);
+                console.log('r3 should be (1.7, 0, 1):');
+                r3.log();
+
+                let v4 = new Vector3D(4, 0, 0);
+                let a4 = new Vector3D(0, 0, 10);
+                let r4 = Applier.apply(v4, Rotate(a4, Math.PI / 4).matrix);
+                console.log('r4 should be (2.828, 2.828, 0):');
+                r4.log();
+
+                let v5 = new Vector3D(2, 3, 4);
+                let a5 = new Vector3D(4, 6, 8);
+                let r5 = Applier.apply(v5, Rotate(a5, Math.PI / 3).matrix);
+                console.log('r5 should be (2, 3, 4):');
+                r5.log();
             }
 
             function TestScale() {
@@ -80,10 +116,11 @@
         </script>
 
         <script>
+            //TestVector3D();
             //TestMatrix4By4();
-            //TestRotation();
-            TestScale();
-            TestTranslate();
+            TestRotation();
+            //TestScale();
+            //TestTranslate();
         </script>
     </body>
 </html>

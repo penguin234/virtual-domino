@@ -33,3 +33,17 @@ Vector3D.prototype.sub = function(p) {
 
     return this;
 };
+
+Vector3D.prototype.abs = function() {
+    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+}
+
+Vector3D.prototype.normalize = function() {
+    const size = this.abs();
+
+    this.x /= size;
+    this.y /= size;
+    this.z /= size;
+
+    return this;
+}
