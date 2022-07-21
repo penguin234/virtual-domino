@@ -36,7 +36,7 @@ Vector3D.prototype.sub = function(p) {
 
 Vector3D.prototype.abs = function() {
     return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
-}
+};
 
 Vector3D.prototype.normalize = function() {
     const size = this.abs();
@@ -46,4 +46,4 @@ Vector3D.prototype.normalize = function() {
     this.z /= size;
 
     return this;
-}
+};
