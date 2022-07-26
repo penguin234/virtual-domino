@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title> Library 3D-Elements Test </title>
+
+        <script src="https://unpkg.com/vue@3"></script>
+
+        <script src="3d-elements/vector3d.js"></script>
+        <script src="3d-elements/matrix4by4.js"></script>
+        <script src="3d-transforms/applier.js"></script>
+        <script src="3d-transforms/rotate.js"></script>
+        <script src="3d-transforms/scale.js"></script>
+        <script src="3d-transforms/translate.js"></script>
+        <script src="camera/perspectivecamera.js"></script>
+
+        <script src="tests.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+            <div v-for="subject in subjects">
+                <h2> {{ subject.name }} </h2>
+                <div v-for="method in subject.methods">
+                    <h3> {{ subject.name + '.' + method.name }} </h3>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const { createApp } = Vue;
+        
+            createApp({
+                data() {
+                    return {
+                        subjects: subjects,
+                    };
+                }
+            }).mount('#app');
+        </script>
+    </body>
+</html>
