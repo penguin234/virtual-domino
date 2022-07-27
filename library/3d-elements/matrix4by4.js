@@ -1,14 +1,14 @@
 function Matrix4By4(
-    n11, n12, n13, n14,
-    n21, n22, n23, n24,
-    n31, n32, n33, n34,
-    n41, n42, n43, n44
+    n00, n01, n02, n03,
+    n10, n11, n12, n13,
+    n20, n21, n22, n23,
+    n30, n31, n32, n33
     ) {
     this.matrix = [
-        [n11, n12, n13, n14],
-        [n21, n22, n23, n24],
-        [n31, n32, n33, n34],
-        [n41, n42, n43, n44]
+        [n00, n01, n02, n03],
+        [n10, n11, n12, n13],
+        [n20, n21, n22, n23],
+        [n30, n31, n32, n33]
     ];
 }
 
@@ -50,7 +50,7 @@ Matrix4By4.prototype.sub = function(m) {
 Matrix4By4.prod = function(m1, m2) {
     const matrix = Matrix.prod(m1, m2);
 
-    let res = new Matrix4By4(...matrix[0], ...matrix[1], ...matrix[2], ...matrix[3]);
+    let res = Matrix4By4.fromArray(matrix);
 
     return res;
 };
