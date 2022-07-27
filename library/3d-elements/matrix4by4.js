@@ -30,6 +30,8 @@ Matrix4By4.unit = function() {
     );
 };
 
+Matrix4By4.prototype.__proto__ = Matrix.prototype;
+
 Matrix4By4.prototype.copy = function() {
     return new Matrix4By4(
         this.matrix[0][0], this.matrix[0][1], this.matrix[0][2], this.matrix[0][3],
@@ -39,46 +41,6 @@ Matrix4By4.prototype.copy = function() {
     );
 };
 
-Matrix4By4.prototype.log = function() {
-    for(const row of this.matrix) {
-        line = '';
-        for (const value of row) {
-            line += String(value) + '\t';
-        }
-        console.log(line);
-    }
-};
-
-Matrix4By4.prototype.read = function(row, col) {
-    return this.matrix[row][col];
-};
-
-Matrix4By4.prototype.write = function(row, col, val) {
-    this.matrix[row][col] = val;
-
-    return this;
-};
-
-Matrix4By4.prototype.mult = function(c) {
-    for (const row of this.matrix) {
-        for (let index in row) {
-            row[index] *= c;
-        }
-    }
-
-    return this;
-};
-
-Matrix4By4.prototype.add = function(m) {
-    for (const rowindex in this.matrix) {
-        for (let index in this.matrix[rowindex]) {
-            this.matrix[rowindex][index] += m.matrix[rowindex][index];
-        }
-    }
-
-    return this;
-};
-
 Matrix4By4.prototype.sub = function(m) {
     this.add(m.copy().mult(-1));
 
@@ -86,20 +48,9 @@ Matrix4By4.prototype.sub = function(m) {
 };
 
 Matrix4By4.prod = function(m1, m2) {
-    res = new Matrix4By4(
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0
-    );
+    const matrix = Matrix.prod(m1, m2);
 
-    for (const rowindex in res.matrix) {
-        for (const colindex in res.matrix[rowindex]) {
-            for (let k = 0; k < 4; k++) {
-                res.matrix[rowindex][colindex] += m1.matrix[rowindex][k] * m2.matrix[k][colindex];
-            }
-        }
-    }
+    let res = new Matrix4By4(...matrix[0], ...matrix[1], ...matrix[2], ...matrix[3]);
 
     return res;
 };
