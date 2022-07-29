@@ -46,11 +46,3 @@ Matrix4By4.prototype.sub = function(m) {
 
     return this;
 };
-
-Matrix4By4.prod = function(m1, m2) {
-    const matrix = Matrix.prod(m1, m2);
-
-    let res = Matrix4By4.fromArray(matrix);
-
-    return res;
-};

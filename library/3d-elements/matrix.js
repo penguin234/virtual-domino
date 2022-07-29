@@ -47,16 +47,19 @@ Matrix.prod = function(m1, m2) {
     const col = m2.matrix[0].length;
     const n = m1.matrix[0].length;
 
-    let res = [];
+    let matrix = [];
     for (let r = 0; r < row; r++) {
-        res.push([]);
+        matrix.push([]);
         for (let c = 0; c < col; c++) {
-            res[r].push(0);
+            matrix[r].push(0);
             for (let k = 0; k < n; k++) {
-                res[r][c] += m1.matrix[r][k] * m2.matrix[k][c];
+                matrix[r][c] += m1.matrix[r][k] * m2.matrix[k][c];
             }
         }
     }
+
+    let res = new Matrix();
+    res.matrix = matrix;
 
     return res;
 }

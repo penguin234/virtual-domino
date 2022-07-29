@@ -3,7 +3,7 @@ Applier = {};
 Applier.apply = function(target, transform) {
     res = [0, 0, 0, 0];
 
-    for (const colindex in res) {
+    for (const colindex in transform.matrix) {
         for (const k in transform.matrix[colindex]) {
             res[colindex] += target[k] * transform.matrix[k][colindex];
         }
@@ -29,5 +29,5 @@ Applier.toPoint = function(vector, transform) {
 }
 
 Applier.merge = function(transform1, transform2) {
-    return Matrix4By4.prod(transform1, transform2);
+    return Matrix.prod(transform1, transform2);
 };
