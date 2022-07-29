@@ -37,11 +37,3 @@ Matrix4By3.prototype.sub = function(m) {
 
     return this;
 };
-
-Matrix4By3.prod = function(m1, m2) {
-    const matrix = Matrix.prod(m1, m2);
-
-    let res = Matrix4By3.fromArray(matrix);
-
-    return res;
-};
