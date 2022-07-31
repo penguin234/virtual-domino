@@ -1,8 +1,6 @@
 <html>
     <head>
-        <title> Library 3D-Elements Test </title>
-
-        <script src="https://unpkg.com/vue@3"></script>
+        <title> Library Tests </title>
 
         <script src="3d-elements/vector3d.js"></script>
         <script src="3d-elements/matrix.js"></script>
@@ -14,28 +12,32 @@
         <script src="camera/perspectivecamera.js"></script>
 
         <script src="tests.js"></script>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
     </head>
 
     <body>
-        <div id="app">
-            <div v-for="subject in subjects">
-                <h2> {{ subject.name }} </h2>
-                <div v-for="method in subject.methods">
-                    <h3> {{ subject.name + '.' + method.name }} </h3>
-                </div>
-            </div>
-        </div>
+        <div id="mocha"></div>
+
+        <script src="https://unpkg.com/chai/chai.js"></script>
+        <script src="https://unpkg.com/mocha/mocha.js"></script>
+    
+        <script class="mocha-init">
+            mocha.setup('bdd');
+            mocha.checkLeaks();
+        </script>
 
         <script>
-            const { createApp } = Vue;
-        
-            createApp({
-                data() {
-                    return {
-                        subjects: subjects,
-                    };
-                }
-            }).mount('#app');
+            var assert = chai.assert;
+            var should = chai.should();
+        </script>
+
+        <script src="tests/test.vector3d.js"></script>
+
+        <script class="mocha-exec">
+            mocha.run();
         </script>
     </body>
 </html>

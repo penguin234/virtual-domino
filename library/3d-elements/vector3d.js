@@ -8,6 +8,10 @@ Vector3D.prototype.copy = function() {
     return new Vector3D(this.x, this.y, this.z);
 };
 
+Vector3D.prototype.toString = function() {
+    return '(' + String(this.x) + ', ' + String(this.y) + ', ' + String(this.z) + ')';
+}
+
 Vector3D.prototype.log = function() {
     console.log('(' + String(this.x) + ', ' + String(this.y) + ', ' + String(this.z) + ')');
 };
