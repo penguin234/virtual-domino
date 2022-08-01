@@ -51,3 +51,11 @@ Vector3D.prototype.normalize = function() {
 
     return this;
 };
+
+Vector3D.prototype.innerProduct = function(v) {
+    return this.x * v.x + this.y * v.y + this.z * v.z;
+}
+
+Vector3D.prototype.outerProduct = function(v) {
+    return new Vector3D(this.y * v.z - this.z * v.y, this.z * v.x - this.x - v.z, this.x * v.y - this.y * v.x);
+}
