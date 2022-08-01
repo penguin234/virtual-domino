@@ -1,25 +1,4 @@
-function CorrectVector3D(v1, v2, corr) {
-    return corr(v1.x, v2.x) && corr(v1.y, v2.y) && corr(v1.z, v2.z);
-}
-
-function StrictCorrection(a, b) {
-    return a === b;
-}
-
-function MakeApproximateCorrection(d) {
-    return function(a, b) {
-        return Math.abs(a - b) <= d;
-    }
-}
-
-
-
 describe('Vector3D', function() {
-    const tolerance = 1 / 1000000;
-    const correction = MakeApproximateCorrection(tolerance);
-    const isVectorEqual = function(actual, expected) {
-        assert(CorrectVector3D(actual, expected, correction), actual.toString() + ' doesn\'t match ' + expected.toString())
-    }
 
     describe('#add()', function() {
         it('add (2, 2, 2) to (1, 2, 3) is (3, 4, 5)', function() {

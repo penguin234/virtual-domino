@@ -2,9 +2,22 @@ function Matrix() {
     this.matrix = null;
 }
 
+Matrix.prototype.toString = function() {
+    let res = '';
+    for(const row of this.matrix) {
+        line = '|';
+        for (const value of row) {
+            line += String(value) + '\t';
+        }
+        line += '|';
+        res += line;
+    }
+    return res;
+};
+
 Matrix.prototype.log = function() {
     for(const row of this.matrix) {
-        line = '';
+        let line = '';
         for (const value of row) {
             line += String(value) + '\t';
         }

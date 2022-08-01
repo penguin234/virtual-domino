@@ -11,6 +11,8 @@
         <script src="3d-transforms/translate.js"></script>
         <script src="camera/perspectivecamera.js"></script>
 
+        <script src="tests/testcore.js"></script>
+
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
@@ -29,10 +31,12 @@
 
         <script>
             var assert = chai.assert;
+            var expect = chai.expect;
             var should = chai.should();
         </script>
 
         <script src="tests/test.vector3d.js"></script>
+        <script src="tests/test.matrix4by4.js"></script>
 
         <script class="mocha-exec">
             mocha.run();
