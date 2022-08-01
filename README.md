@@ -1,2 +1,2 @@
 # Virtual Domino Project  
-[Site Link](virtual-domino.netlify.app)
+[Site Link](http://virtual-domino.netlify.app)  
