@@ -176,10 +176,10 @@ describe('Vector3D', function() {
             isVectorEqual(v1.outerProduct(v2), expected);
         });
 
-        it('(1, 0, 0) cross (0, 1, 0) is (0, 0, 1)', function() {
-            let v1 = new Vector3D(1, 0 ,0);
-            let v2 = new Vector3D(0, 1, 0);
-            let expected = new Vector3D(0, 0, 1);
+        it('(2, 2, 2) cross (2, -2, 2) is (8, 0, -8)', function() {
+            let v1 = new Vector3D(2, 2 ,2);
+            let v2 = new Vector3D(2, -2, 2);
+            let expected = new Vector3D(8, 0, -8);
 
             isVectorEqual(v1.outerProduct(v2), expected);
         });
