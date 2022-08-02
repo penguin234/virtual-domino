@@ -19,11 +19,32 @@
 
     <body>
         <div id="app">
-            <svg :width="width" :height="height" :view-box.camel="viewbox" style="outline: 2px solid red;">
-                <template v-for="rect in rects">
-                    <polygon :points="mergePoints(rect.points)" style="fill:green;stroke:black;stroke-width:1" />
-                </template>
-            </svg>
+            <div>
+                <svg :width="width" :height="height" :view-box.camel="viewbox" style="outline: 2px solid red;">
+                    <template v-for="rect in rects">
+                        <polygon :points="mergePoints(rect.points)" style="fill:green;stroke:black;stroke-width:1" />
+                    </template>
+                </svg>
+            </div>
+
+            <div>
+                <p>
+                    Camera Location: (<span>{{cameraX.value}}</span>, <span>{{cameraY.value}}</span>, <span>{{cameraZ.value}}</span>)
+                </p>
+                <p>
+                    <span>CameraX: </span> <input type="range" :min="cameraX.min" :max="cameraX.max" v-model="cameraX.value" /> <br>
+                    <span>CameraX: </span> <input type="range" :min="cameraY.min" :max="cameraY.max" v-model="cameraY.value" /> <br>
+                    <span>CameraX: </span> <input type="range" :min="cameraZ.min" :max="cameraZ.max" v-model="cameraZ.value" /> <br>
+                </p>
+                <p>
+                    Look Direction: (<span>{{lookX.value}}</span>, <span>{{lookY.value}}</span>, <span>{{lookZ.value}}</span>)
+                </p>
+                <p>
+                    <span>LookX: </span> <input type="range" :min="lookX.min" :max="lookX.max" v-model="lookX.value" /> <br>
+                    <span>LookX: </span> <input type="range" :min="lookY.min" :max="lookY.max" v-model="lookY.value" /> <br>
+                    <span>LookX: </span> <input type="range" :min="lookZ.min" :max="lookZ.max" v-model="lookZ.value" /> <br>
+                </p>
+            </div>
         </div>
 
         <script>
@@ -43,6 +64,38 @@
 
                         width: 300,
                         height: 300,
+
+                        cameraX: {
+                            value: 0,
+                            min: -100,
+                            max: 100,
+                        },
+                        cameraY: {
+                            value: 0,
+                            min: -100,
+                            max: 100,
+                        },
+                        cameraZ: {
+                            value: 100,
+                            min: 10,
+                            max: 190,
+                        },
+
+                        lookX: {
+                            value: 0,
+                            min: -100,
+                            max: 100,
+                        },
+                        lookY: {
+                            value: 0,
+                            min: -100,
+                            max: 100,
+                        },
+                        lookZ: {
+                            value: -20,
+                            min: -39,
+                            max: -1,
+                        },
 
                         rects: [
                             {
