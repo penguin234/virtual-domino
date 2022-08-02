@@ -13,15 +13,78 @@
         <script src="3d-transforms/translate.js"></script>
         <script src="3d-elements/point2d.js"></script>
         <script src="camera/perspectivecamera.js"></script>
+
+        <script src="https://unpkg.com/vue@3"></script>
     </head>
 
     <body>
-        <canvas id="camera1">
-
-        </canvas>
+        <div id="app">
+            <svg :width="width" :height="height" :view-box.camel="viewbox" style="outline: 2px solid red;">
+                <template v-for="rect in rects">
+                    <polygon :points="mergePoints(rect.points)" style="fill:green;stroke:black;stroke-width:1" />
+                </template>
+            </svg>
+        </div>
 
         <script>
-        
+            const viewboxwidth = 200;
+            const viewboxheight = 200;
+
+        </script>
+
+        <script>
+            const { createApp } = Vue;
+
+            createApp({
+                data() {
+                    return {
+                        viewboxwidth: viewboxwidth,
+                        viewboxheight: viewboxheight,
+
+                        width: 300,
+                        height: 300,
+
+                        rects: [
+                            {
+                                points: [
+                                    {
+                                        x: 20,
+                                        y: 20,
+                                    },
+                                    {
+                                        x: 40,
+                                        y: 20,
+                                    },
+                                    {
+                                        x: 40,
+                                        y: 40,
+                                    },
+                                    {
+                                        x: 20,
+                                        y: 40,
+                                    },
+                                ],
+                            },
+                        ],
+                    };
+                },
+                methods: {
+                    mergePoints(points) {
+                        let res = '';
+                        for (const point of points) {
+                            res += String(point.x) + ',' + String(point.y) + ' ';
+                        }
+                        return res;
+                    },
+                },
+                computed: {
+                    viewbox() {
+                        const w = this.viewboxwidth;
+                        const h = this.viewboxheight;
+                        return String(0) + ' ' + String((w - h) / 2) + ' ' + String(w) + ' ' + String((w + h) / 2);
+                    },
+                },
+            }).mount('#app');
         </script>
     </body>
 </html>
