@@ -9,20 +9,14 @@ Matrix.prototype.toString = function() {
         for (const value of row) {
             line += String(value) + '\t';
         }
-        line += '|';
+        line += '|\n';
         res += line;
     }
     return res;
 };
 
 Matrix.prototype.log = function() {
-    for(const row of this.matrix) {
-        let line = '';
-        for (const value of row) {
-            line += String(value) + '\t';
-        }
-        console.log(line);
-    }
+    console.log(this.toString());
 };
 
 Matrix.prototype.read = function(row, col) {

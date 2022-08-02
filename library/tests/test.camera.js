@@ -26,4 +26,14 @@ describe('Camera', function() {
             isVectorEqual(Applier.toPoint(v1, transform), expected);
         });
     });
+
+    describe('#Project Point', function() {
+        it('(0, 0, 0) project', function() {
+            let v1 = new Vector3D(0, 0, 0);
+            let expected = new Vector3D(0, 0, camera.position.abs());
+
+            let transform = camera.GetProjectionTransform();
+            isVectorEqual(Applier.toPoint(v1, transform), expected);
+        })
+    });
 });
