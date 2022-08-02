@@ -1,5 +1,4 @@
 describe('Vector3D', function() {
-
     describe('#add()', function() {
         it('add (2, 2, 2) to (1, 2, 3) is (3, 4, 5)', function() {
             let v1 = new Vector3D(1, 2, 3);
