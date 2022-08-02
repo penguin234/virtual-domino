@@ -3,8 +3,8 @@ Applier = {};
 Applier.apply = function(target, transform) {
     res = [0, 0, 0, 0];
 
-    for (const colindex in transform.matrix) {
-        for (const k in transform.matrix[colindex]) {
+    for (const colindex in transform.matrix[0]) {
+        for (const k in transform.matrix) {
             res[colindex] += target[k] * transform.matrix[k][colindex];
         }
     }
