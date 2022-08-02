@@ -49,3 +49,12 @@ function CorrectMatrix(m1, m2, corr) {
 const isMatrixEqual = function(actual, expected) {
     assert(CorrectMatrix(actual, expected, correction), actual.toString() + ' doesn\'t match ' + expected.toString());
 };
+
+
+function OverlapPoint2D(p1, p2, corr) {
+    return corr(p1.x, p2.x) && corr(p1.y, p2.y);
+}
+
+const doesPointOverlap = function(actual, expected) {
+    assert(OverlapPoint2D(actual, expected, correction), actual.toString() + ' doesn\'t match ' + expected.toString());
+};

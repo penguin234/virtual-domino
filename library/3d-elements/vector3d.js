@@ -13,7 +13,7 @@ Vector3D.prototype.toString = function() {
 }
 
 Vector3D.prototype.log = function() {
-    console.log('(' + String(this.x) + ', ' + String(this.y) + ', ' + String(this.z) + ')');
+    console.log(this.toString());
 };
 
 Vector3D.prototype.add = function(p) {
