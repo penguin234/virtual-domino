@@ -2,17 +2,26 @@
     <head>
         <title> Library Tests </title>
 
+        <!-- 3d-elements -->
         <script src="3d-elements/vector3d.js"></script>
         <script src="3d-elements/matrix.js"></script>
         <script src="3d-elements/matrix4by4.js"></script>
         <script src="3d-elements/matrix4by3.js"></script>
         <script src="3d-elements/matrix3by3.js"></script>
+        <script src="3d-elements/point2d.js"></script>
+
+        <!-- 3d-transforms -->
         <script src="3d-transforms/applier.js"></script>
         <script src="3d-transforms/rotate.js"></script>
         <script src="3d-transforms/scale.js"></script>
         <script src="3d-transforms/translate.js"></script>
-        <script src="3d-elements/point2d.js"></script>
+
+        <!-- camera -->
         <script src="camera/perspectivecamera.js"></script>
+
+        <!-- domino-stuffs -->
+        <script src="domino-stuffs/dominoframe.js"></script>
+        <script src="domino-stuffs/domino.js"></script>
 
         <script src="tests/testcore.js"></script>
 
@@ -42,6 +51,7 @@
         <script src="tests/test.vector3d.js"></script>
         <script src="tests/test.matrix4by4.js"></script>
         <script src="tests/test.camera.js"></script>
+        <script src="tests/test.domino.js"></script>
 
         <script class="mocha-exec">
             mocha.run();
