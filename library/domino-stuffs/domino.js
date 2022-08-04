@@ -19,8 +19,8 @@ Domino.prototype.GetFigure = function() {
                 points: [],
                 norm: base
             };
-            for ([a, b] of [[1, 1], [1, -1], [-1, -1], [-1, 1]]) {
-                surface.points.push(this.position.add(base).add(rem[0].copy().mult(a)).add(rem[1].copy().mult(b)));
+            for ([a, b] of [[1, 1], [1, -1], [-1, -1], [-1, 1]]) { 
+                surface.points.push(this.position.copy().add(base).add(rem[0].copy().mult(a)).add(rem[1].copy().mult(b)));
             }
             surfaces.push(surface);
         }

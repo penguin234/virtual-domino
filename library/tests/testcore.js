@@ -58,3 +58,26 @@ function OverlapPoint2D(p1, p2, corr) {
 const doesPointOverlap = function(actual, expected) {
     assert(OverlapPoint2D(actual, expected, correction), actual.toString() + ' doesn\'t match ' + expected.toString());
 };
+
+
+function CorrectSurface(actual, expected) {
+    for (const p of actual.points) {
+        
+    }
+    return false;
+}
+
+const isCubeEqual = function(actual, expected) {
+    let count = 0;
+
+    for (const surface of actual) {
+        let flag = -1;
+        for (const i in expected) {
+            if (CorrectSurface(surface, expected[i])) {
+                flag = i;
+                break;
+            }
+        }
+        assert(flag != -1, 'wrong surface: ' + surface.points.map((v) => v.toString()).join(' '));
+    }
+}

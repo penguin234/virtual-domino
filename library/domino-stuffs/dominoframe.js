@@ -12,5 +12,5 @@ function DominoFrame(width, length, height, mass) {
 }
 
 DominoFrame.prototype.GetSeedVectors = function(transform) {
-    return this.seedVectors.map((v) => Applier.toVector(v));
+    return this.seedVectors.map((v) => Applier.toVector(v, transform));
 };
