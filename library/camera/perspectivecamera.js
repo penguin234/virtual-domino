@@ -62,3 +62,9 @@ PerspectiveCamera.prototype.GetProjectionTransform = function() {
 
     return Applier.merge(Applier.merge(coord, proj), pix);
 };
+
+PerspectiveCamera.prototype.GetProperUpdirection = function(seed) {
+    const look = this.lookdirection.copy();
+    const proj = look.mult(seed.innerProduct(look) / look.innerProduct(look));
+    return seed.copy().sub(proj);
+};

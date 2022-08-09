@@ -196,7 +196,7 @@
                             max: 89,
                         },
 
-                        camrea: null,
+                        camera: null,
 
                         dominos: dominos,
 
@@ -209,7 +209,6 @@
                 },
                 mounted() {
                     this.camera = new PerspectiveCamera(this.cameraPosition, this.lookDirection, this.upDirection, this.viewRadious, this.viewboxwidth);
-
                     this.reRender();
                 },
                 methods: {
@@ -271,9 +270,12 @@
                     upDirection() {
                         const rad = this.upAngle.value * Math.PI / 180;
                         const seed = new Vector3D(200 * Math.cos(rad), 200 * Math.sin(rad), 0);
-                        const look = this.lookDirection;
 
-                        let res = seed.copy().sub(look.copy().normalize().mult(seed.innerProduct(look.copy().normalize())));
+                        if (!this.camera) {
+                            return seed;
+                        }
+
+                        let res = this.camera.GetProperUpdirection(seed);
 
                         return res;
                     },
