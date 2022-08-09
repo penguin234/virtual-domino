@@ -1,7 +1,7 @@
 function PerspectiveCamera(position, lookdirection, updirection, horizontalangle, viewboxwidth) {
-    this.position = position;
-    this.lookdirection = lookdirection;
-    this.updirection = updirection;
+    this.position = position.copy();
+    this.lookdirection = lookdirection.copy();
+    this.updirection = updirection.copy();
     this.horizontalangle = horizontalangle;
     this.viewboxwidth = viewboxwidth;
 }

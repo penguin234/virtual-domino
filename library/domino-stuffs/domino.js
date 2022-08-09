@@ -1,9 +1,9 @@
 function Domino(frame, position, rotation, velocity, angularvelocity) {
     this.frame = frame;
-    this.position = position;
-    this.rotation = rotation;
-    this.velocity = velocity;
-    this.angularvelocity = angularvelocity;
+    this.position = position.copy();
+    this.rotation = rotation.copy();
+    this.velocity = velocity.copy();
+    this.angularvelocity = angularvelocity.copy();
 }
 
 Domino.prototype.GetFigure = function() {

@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title> Camera Test </title>
+        <title> Domino Rendering Test </title>
 
         <script src="3d-elements/vector3d.js"></script>
         <script src="3d-elements/matrix.js"></script>
@@ -13,6 +13,9 @@
         <script src="3d-transforms/translate.js"></script>
         <script src="3d-elements/point2d.js"></script>
         <script src="camera/perspectivecamera.js"></script>
+        <script src="domino-stuffs/dominoframe.js"></script>
+        <script src="domino-stuffs/domino.js"></script>
+        <script src="render-system/render.js"></script>
 
         <script src="https://unpkg.com/vue@3"></script>
     </head>
@@ -63,78 +66,28 @@
             const viewboxwidth = 200;
             const viewboxheight = 200;
 
+            const frame = new DominoFrame(10, 4, 20, 1);
+            const dominos = [];
+
+            const ri = Rotate(new Vector3D(0, 0, 1), 0);;
+            const vi = new Vector3D(0 ,0, 0);
 
             const start = new Vector3D(0, -30, 10);
-            const xfactor = new Vector3D(5, 0, 0);
-            const yfactor = new Vector3D(0, 2, 0);
-            const zfactor = new Vector3D(0, 0, 10);
             const step = new Vector3D(0, 10, 0);
 
+            const startr = new Rotate(new Vector3D(0, 0, 1), -1 * Math.PI / 4);
+            const stepr = new Rotate(new Vector3D(0, 0, 1), Math.PI / 16);
+
             let curr = start.copy();
-            const dominos = [];
+            let currr = startr.copy();
+
             for (let i = 0; i < 7; i++) {
-                const domino = {
-                    surfaces: [],
-                };
-
-                // z positive
-                domino.surfaces.push({
-                    p1: curr.copy().add(xfactor).add(yfactor).add(zfactor),
-                    p2: curr.copy().add(xfactor).sub(yfactor).add(zfactor),
-                    p3: curr.copy().sub(xfactor).sub(yfactor).add(zfactor),
-                    p4: curr.copy().sub(xfactor).add(yfactor).add(zfactor),
-                    norm: zfactor.copy(),
-                });
-
-                // z negative
-                domino.surfaces.push({
-                    p1: curr.copy().add(xfactor).add(yfactor).sub(zfactor),
-                    p2: curr.copy().add(xfactor).sub(yfactor).sub(zfactor),
-                    p3: curr.copy().sub(xfactor).sub(yfactor).sub(zfactor),
-                    p4: curr.copy().sub(xfactor).add(yfactor).sub(zfactor),
-                    norm: zfactor.copy().mult(-1),
-                });
-
-                // y positive
-                domino.surfaces.push({
-                    p1: curr.copy().add(xfactor).add(yfactor).add(zfactor),
-                    p2: curr.copy().add(xfactor).add(yfactor).sub(zfactor),
-                    p3: curr.copy().sub(xfactor).add(yfactor).sub(zfactor),
-                    p4: curr.copy().sub(xfactor).add(yfactor).add(zfactor),
-                    norm: yfactor.copy(),
-                });
-
-                // y negative
-                domino.surfaces.push({
-                    p1: curr.copy().add(xfactor).sub(yfactor).add(zfactor),
-                    p2: curr.copy().add(xfactor).sub(yfactor).sub(zfactor),
-                    p3: curr.copy().sub(xfactor).sub(yfactor).sub(zfactor),
-                    p4: curr.copy().sub(xfactor).sub(yfactor).add(zfactor),
-                    norm: yfactor.copy().mult(-1),
-                });
-
-                // x positive
-                domino.surfaces.push({
-                    p1: curr.copy().add(xfactor).add(yfactor).add(zfactor),
-                    p2: curr.copy().add(xfactor).add(yfactor).sub(zfactor),
-                    p3: curr.copy().add(xfactor).sub(yfactor).sub(zfactor),
-                    p4: curr.copy().add(xfactor).sub(yfactor).add(zfactor),
-                    norm: xfactor.copy(),
-                });
-
-                // x negative
-                domino.surfaces.push({
-                    p1: curr.copy().sub(xfactor).add(yfactor).add(zfactor),
-                    p2: curr.copy().sub(xfactor).add(yfactor).sub(zfactor),
-                    p3: curr.copy().sub(xfactor).sub(yfactor).sub(zfactor),
-                    p4: curr.copy().sub(xfactor).sub(yfactor).add(zfactor),
-                    norm: xfactor.copy().mult(-1),
-                });
-
+                const domino = new Domino(frame, curr, currr, vi, ri);
 
                 dominos.push(domino);
 
                 curr.add(step);
+                currr = Applier.merge(currr, stepr);
             }
 
             console.log(dominos);
@@ -198,6 +151,8 @@
 
                         camera: null,
 
+                        rendermachine: null,
+
                         dominos: dominos,
 
                         rects: [
@@ -209,6 +164,7 @@
                 },
                 mounted() {
                     this.camera = new PerspectiveCamera(this.cameraPosition, this.lookDirection, this.upDirection, this.viewRadious, this.viewboxwidth);
+                    this.rendermachine = new RenderMachine(this.camera);
                     this.reRender();
                 },
                 methods: {
@@ -224,26 +180,11 @@
                         this.camera.lookdirection = this.lookDirection;
                         this.camera.updirection = this.upDirection;
                         this.camera.horizontalangle = this.viewRadious;
-                        const proj = this.camera.GetProjectionTransform();
 
                         this.rects = [];
                         for (const domino of this.dominos) {
-                            for (const surface of domino.surfaces) {
-                                //if (surface.norm.innerProduct(this.camera.lookdirection) >= 0) {
-                                //    continue;
-                                //}
-
-                                const p1 = Point2D.NormalizeProjectedPoint(Applier.toPoint(surface.p1, proj));
-                                const p2 = Point2D.NormalizeProjectedPoint(Applier.toPoint(surface.p2, proj));
-                                const p3 = Point2D.NormalizeProjectedPoint(Applier.toPoint(surface.p3, proj));
-                                const p4 = Point2D.NormalizeProjectedPoint(Applier.toPoint(surface.p4, proj));
-                                const zorder = p1.d + p2.d + p3.d + p4.d;
-                                this.rects.push({
-                                    points: [
-                                        p1, p2, p3, p4,
-                                    ],
-                                    zorder: zorder,
-                                });
+                            for (const rect of this.rendermachine.RenderFigure(domino.GetFigure())) {
+                                this.rects.push(rect);
                             }
                         }
                     },

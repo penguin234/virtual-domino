@@ -15,6 +15,15 @@ Matrix.prototype.toString = function() {
     return res;
 };
 
+Matrix.prototype.copy = function() {
+    let res = new Matrix();
+    res.matrix = [];
+    for (const row of this.matrix) {
+        res.matrix.push([...row]);
+    }
+    return res;
+};
+
 Matrix.prototype.log = function() {
     console.log(this.toString());
 };
