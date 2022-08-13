@@ -15,11 +15,11 @@ Domino.prototype.GetFigure = function() {
         let rem = seeds.filter((v, index) => index != i);
         for (const c of [1, -1]) {
             let base = seeds[i].copy().mult(c);
-            surface = {
+            let surface = {
                 points: [],
                 norm: base
             };
-            for ([a, b] of [[1, 1], [1, -1], [-1, -1], [-1, 1]]) { 
+            for (let [a, b] of [[1, 1], [1, -1], [-1, -1], [-1, 1]]) { 
                 surface.points.push(this.position.copy().add(base).add(rem[0].copy().mult(a)).add(rem[1].copy().mult(b)));
             }
             surfaces.push(surface);

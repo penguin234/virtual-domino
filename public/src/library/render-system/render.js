@@ -1,5 +1,13 @@
-function RenderMachine(camera) {
-    this.camera = camera;
+import Point2D from '../3d-elements/point2d'
+import Applier from '../3d-transforms/applier'
+
+
+function RenderMachine(projection) {
+    this.projection = projection;
+}
+
+RenderMachine.prototype.SetCamera = function(projection) {
+    this.projection = projection;
 }
 
 RenderMachine.prototype.RenderSurface = function(surface) {
@@ -8,9 +16,7 @@ RenderMachine.prototype.RenderSurface = function(surface) {
         zorder: 0
     };
 
-    const proj = this.camera.GetProjectionTransform();
-
-    res.points = surface.points.map(p => Point2D.NormalizeProjectedPoint(Applier.toPoint(p, proj)));
+    res.points = surface.points.map(p => Point2D.NormalizeProjectedPoint(Applier.toPoint(p, this.projection)));
     res.zorder = res.points.map(p => p.d).reduce((d1, d2) => d1 + d2);
 
     return res;

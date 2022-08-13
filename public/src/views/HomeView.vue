@@ -3,5 +3,5 @@
 
 <template>
   <h2> Home </h2>
-  <a href="/wiki"> Wiki </a> <br>
+  <router-link to='/wiki'> Wiki </router-link> <br>
 </template>

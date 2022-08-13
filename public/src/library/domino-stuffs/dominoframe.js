@@ -1,3 +1,7 @@
+import Vector3D from '../3d-elements/vector3d';
+import Applier from '../3d-transforms/applier';
+
+
 function DominoFrame(width, length, height, mass) {
     this.width = width;
     this.length = length;

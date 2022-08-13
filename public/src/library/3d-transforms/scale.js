@@ -1,3 +1,6 @@
+import Matrix4By4 from '../3d-elements/matrix4by4'
+
+
 function Scale(sx, sy, sz) {
     matrix = Matrix4By4.unit();
     matrix.write(0, 0, sx);

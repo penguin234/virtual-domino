@@ -1,3 +1,6 @@
+import Matrix4By4 from '../3d-elements/matrix4by4'
+
+
 function Rotate(axis, angle) {
     axis = axis.copy().normalize();
     const x = axis.x;
@@ -6,7 +9,7 @@ function Rotate(axis, angle) {
     const s = Math.sin(angle);
     const c = Math.cos(angle);
 
-    matrix = Matrix4By4.unit();
+    let matrix = Matrix4By4.unit();
     matrix.write(0, 0, c + x * x * (1 - c));
     matrix.write(0, 1, y * x * (1 - c) + z * s);
     matrix.write(0, 2, z * x * (1 - c) - y * s);

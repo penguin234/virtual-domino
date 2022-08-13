@@ -1,3 +1,6 @@
+import Matrix from './matrix';
+
+
 function Matrix3By3(
     n00, n01, n02,
     n10, n11, n12,

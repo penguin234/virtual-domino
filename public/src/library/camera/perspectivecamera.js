@@ -1,7 +1,22 @@
+import Matrix4By4 from '../3d-elements/matrix4by4'
+import Matrix4By3 from '../3d-elements/matrix4by3'
+import Matrix3By3 from '../3d-elements/matrix3by3'
+import Translate from '../3d-transforms/translate'
+import Applier from '../3d-transforms/applier'
+
 function PerspectiveCamera(position, lookdirection, updirection, horizontalangle, viewboxwidth) {
-    this.position = position.copy();
-    this.lookdirection = lookdirection.copy();
-    this.updirection = updirection.copy();
+    if (position) {
+        this.position = position.copy();
+    }
+
+    if (lookdirection) {
+        this.lookdirection = lookdirection.copy();
+    }
+
+    if (updirection) {
+        this.updirection = updirection.copy();
+    }
+
     this.horizontalangle = horizontalangle;
     this.viewboxwidth = viewboxwidth;
 }

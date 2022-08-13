@@ -1,7 +1,11 @@
+import Matrix from '../3d-elements/matrix'
+import Vector3D from '../3d-elements/vector3d'
+
+
 const Applier = {};
 
 Applier.apply = function(target, transform) {
-    res = [0, 0, 0, 0];
+    let res = [0, 0, 0, 0];
 
     for (const colindex in transform.matrix[0]) {
         for (const k in transform.matrix) {

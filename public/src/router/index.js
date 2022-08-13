@@ -15,7 +15,15 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/WikiView.vue')
+      component: () => import('../views/WikiHomeView.vue'),
+
+      children: [
+        {
+          path: 'domino',
+          name: 'domino',
+          component: () => import('../views/wiki/StaticDomino.vue')
+        }
+      ]
     },
   ]
 })
