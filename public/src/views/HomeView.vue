@@ -3,5 +3,5 @@
 
 <template>
   <h2> Home </h2>
-  <a href="/wiki"> Wiki </a>
+  <a href="/wiki"> Wiki </a> <br>
 </template>
