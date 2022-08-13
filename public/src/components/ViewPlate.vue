@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, onMounted } from 'vue'
+import { reactive, computed, watch, onMounted } from 'vue'
 
 import RenderMachine from '@/library/render-system/render'
 
@@ -41,6 +41,10 @@ function mergePoints(points) {
     }
     return res
 }
+
+watch(props, (props) => {
+    render()
+})
 
 const rectsordered = computed(() => {
     const res = figure.rects.filter(() => true);
