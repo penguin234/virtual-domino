@@ -4,7 +4,7 @@ import Rotate from '@/library/3d-transforms/rotate'
 import DominoFrame from '@/library/domino-stuffs/dominoframe'
 import Domino from '@/library/domino-stuffs/domino'
 
-import { ref, reactive, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 import ViewPlate from '@/components/ViewPlate.vue'
 import Vector3DInput from '@/components/Vector3DInput.vue'
@@ -34,10 +34,18 @@ for (let i = 0; i < 5; i++) {
   curr.add(diff)
 }
 
-watch([Width, Length, Height], ([width, length, height]) => {
-  frame.width = width
-  frame.length = length
-  frame.height = height
+watch(Width, (value) => {
+  frame.SetWidth(value)
+  tick.value++
+})
+
+watch(Length, (value) => {
+  frame.SetLength(value)
+  tick.value++
+})
+
+watch(Height, (value) => {
+  frame.SetHeight(value)
   tick.value++
 })
 

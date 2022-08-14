@@ -4,7 +4,7 @@ import Rotate from '@/library/3d-transforms/rotate'
 import DominoFrame from '@/library/domino-stuffs/dominoframe'
 import Domino from '@/library/domino-stuffs/domino'
 
-import { ref, reactive, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 import ViewPlate from '@/components/ViewPlate.vue'
 import Vector3DInput from '@/components/Vector3DInput.vue'
@@ -37,6 +37,6 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
     <h3> Domino </h3>
     <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
     <Vector3DInput name="position" v-model="position" :minZ="0" :maxZ="20" :step="0.5" />
-    <RotateInput name="rotation" v-model=rotation />
+    <RotateInput name="rotation" v-model="rotation" />
   </div>
 </template>

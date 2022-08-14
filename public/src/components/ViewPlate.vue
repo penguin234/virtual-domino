@@ -47,7 +47,8 @@ function mergePoints(points) {
 }
 
 watchEffect(() => {
-    console.log('render', props.tick)
+    props.projection
+    props.tick
     render()
 })
 

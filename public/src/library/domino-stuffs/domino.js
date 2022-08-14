@@ -1,3 +1,6 @@
+import Applier from '../3d-transforms/applier';
+
+
 function Domino(frame, position, rotation, velocity, angularvelocity) {
     this.frame = frame;
     this.position = position.copy();
@@ -28,6 +31,11 @@ Domino.prototype.GetFigure = function() {
 
     return surfaces;
 };
+
+Domino.prototype.Move = function() {
+    this.position.add(this.velocity);
+    this.rotation = Applier.merge(this.rotation, this.angularvelocity);
+}
 
 
 export default Domino;

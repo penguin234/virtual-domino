@@ -12,9 +12,17 @@ const props = defineProps({
     modelValue: {
         type: Object
     },
+    minA: {
+        type: Number,
+        default: 0
+    },
+    maxA: {
+        type: Number,
+        default: Math.PI * 2
+    },
     step: {
         type: Number,
-        default: 0.01
+        default: Math.PI / 50
     }
 })
 const emit = defineEmits(['update:modelValue'])
@@ -35,7 +43,7 @@ watch([Axis, Angle], ([axis, angle]) => {
     <div>
         <p> {{ name }}: </p>
         <label for="Angle">Angle: {{ Angle }} </label> <br>
-        <input name="Angle" type="range" min="0" :max="Math.PI * 2" :step="props.step" v-model.number="Angle" />
+        <input name="Angle" type="range" :min="props.minA" :max="props.maxA" :step="props.step" v-model.number="Angle" />
         <Vector3DInput name="Axis" :minX="-1" :maxX="1" :minY="-1" :maxY="1" :minZ="-1" :maxZ="1" :step="props.step" v-model="Axis" />
     </div>
 </template>
