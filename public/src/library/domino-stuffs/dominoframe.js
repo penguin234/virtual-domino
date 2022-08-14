@@ -16,6 +16,12 @@ function DominoFrame(width, length, height, mass) {
 }
 
 DominoFrame.prototype.GetSeedVectors = function(transform) {
+    this.seedVectors = [
+        new Vector3D(this.width / 2, 0, 0),
+        new Vector3D(0, this.length / 2, 0),
+        new Vector3D(0 ,0, this.height / 2)
+    ];
+    
     return this.seedVectors.map((v) => Applier.toVector(v, transform));
 };
 

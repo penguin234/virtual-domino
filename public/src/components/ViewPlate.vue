@@ -1,9 +1,13 @@
 <script setup>
-import { reactive, computed, watch, onMounted } from 'vue'
+import { reactive, computed, watch, watchEffect, onMounted } from 'vue'
 
 import RenderMachine from '@/library/render-system/render'
 
 const props = defineProps({
+    tick: {
+        type: Number,
+        default: 0
+    },
     dominos: {
         type: Array
     },
@@ -42,7 +46,8 @@ function mergePoints(points) {
     return res
 }
 
-watch(props, (props) => {
+watchEffect(() => {
+    console.log('render', props.tick)
     render()
 })
 

@@ -22,6 +22,11 @@ const router = createRouter({
           path: 'domino',
           name: 'domino',
           component: () => import('../views/wiki/StaticDomino.vue')
+        },
+        {
+          path: 'dominoframe',
+          name: 'dominoframe',
+          component: () => import('../views/wiki/DominoFrame.vue')
         }
       ]
     },

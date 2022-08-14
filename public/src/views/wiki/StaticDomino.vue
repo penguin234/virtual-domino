@@ -12,6 +12,8 @@ import RotateInput from '@/components/RotateInput.vue'
 
 import { useCamera } from '@/composables/useCamera'
 
+const tick = ref(0)
+
 const frame = new DominoFrame(5, 2, 10, 1)
 const dominos = ref([])
 
@@ -24,7 +26,7 @@ dominos.value.push(domino)
 watch([position, rotation], ([position, rotation]) => {
   domino.position = position
   domino.rotation = rotation
-  dominos.value = [...dominos.value]
+  tick.value++
 })
 
 const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, -1), new Vector3D(0, 0, 1), Math.PI / 8, 200)
@@ -33,7 +35,7 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
 <template>
   <div>
     <h3> Domino </h3>
-    <ViewPlate :width="200" :height="200" :dominos="dominos" :projection="projection" />
+    <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
     <Vector3DInput name="position" v-model="position" :minZ="0" :maxZ="20" :step="0.5" />
     <RotateInput name="rotation" v-model=rotation />
   </div>
