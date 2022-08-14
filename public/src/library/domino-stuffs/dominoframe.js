@@ -44,9 +44,7 @@ DominoFrame.prototype.GetI = function(axis) {
     let m = this.mass;
     const sq = a => a * a;
     
-    console.log(x, y, z, w, l, h, m)
     let I = (m / (sq(x) + sq(y) + sq(z))) * (sq(w) * (sq(y) + sq(z)) / 12 + sq(l) * (sq(x) + sq(y)) / 12 + sq(h) * (sq(x) + sq(y)) / 12 + w * l * x * y / 8 + w * h * x * z / 8 + l * h * y * z / 8);
-    console.log('I', I)
 
     return I;
 };
@@ -54,9 +52,10 @@ DominoFrame.prototype.GetI = function(axis) {
 DominoFrame.prototype.ApplyTorque = function(point, force) {
     const axis = point.outerProduct(force);
     const I = this.GetI(axis);
+    if (isNaN(I) || I == 0) {
+        return { axis: new Vector3D(0, 0, 1), angle: 0 };
+    }
     const r = axis.abs() / force.abs();
-    console.log(I)
-    console.log({ axis: axis, angle: force.abs() * r / I })
     return { axis: axis, angle: force.abs() * r / I };
 };
 

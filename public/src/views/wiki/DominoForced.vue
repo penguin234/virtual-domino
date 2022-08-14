@@ -21,8 +21,8 @@ const dominos = ref([])
 
 const rc = Rotate(new Vector3D(0, 0, 1), 0)
 
-const point = ref(new Vector3D(0, 1, 5))
-const force = ref(new Vector3D(0, -1, 0))
+const point = ref(new Vector3D(0, 1, 6))
+const force = ref(new Vector3D(0, -20, 0))
 
 const v = ref(new Vector3D(0, 0, 0))
 const angle = ref(0)
@@ -31,7 +31,7 @@ const axis = ref(new Vector3D(0, 0, 1))
 let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rc)
 dominos.value.push(domino)
 
-const { Play, Pause } = useInterval(100, () => {
+const { Play, Pause } = useInterval(50, () => {
   for (let domino of dominos.value) {
     domino.Move()
   }
@@ -40,6 +40,7 @@ const { Play, Pause } = useInterval(100, () => {
 
 const Force = () => {
   Stop()
+  console.log(domino.ConvertForceCoord(point.value, force.value))
   const { acceleration, angularacceleration } = domino.Force(point.value, force.value)
   domino.Accelerate(acceleration)
   domino.AngularAccelerate(Rotate(angularacceleration.axis, angularacceleration.angle))
