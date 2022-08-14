@@ -58,6 +58,22 @@ Matrix.prototype.add = function(m) {
     return this;
 };
 
+Matrix.prototype.T = function() {
+    let res = new Matrix();
+    res.matrix = [];
+    for (const colindex in this.matrix[0]) {
+        res.matrix.push([]);
+    }
+
+    for (const row of this.matrix) {
+        for (const colindex in row) {
+            res.matrix[colindex].push(row[colindex]);
+        }
+    }
+
+    return res;
+}
+
 Matrix.prod = function(m1, m2) {
     const row = m1.matrix.length;
     const col = m2.matrix[0].length;

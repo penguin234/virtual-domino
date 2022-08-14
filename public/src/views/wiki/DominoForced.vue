@@ -9,20 +9,26 @@ import { ref, watch } from 'vue'
 import ViewPlate from '@/components/ViewPlate.vue'
 import Vector3DInput from '@/components/Vector3DInput.vue'
 import RotateInput from '@/components/RotateInput.vue'
+import Vector3DLabel from '@/components/Vector3DLabel.vue'
 
 import { useCamera } from '@/composables/useCamera'
 import { useInterval } from '@/composables/useInterval'
 
 const tick = ref(0)
 
-const frame = new DominoFrame(5, 2, 10, 1)
+const frame = new DominoFrame(5, 2, 10, 100)
 const dominos = ref([])
 
 const rc = Rotate(new Vector3D(0, 0, 1), 0)
-const rv = ref(Rotate(new Vector3D(0, 0, 1), 0))
-const v = ref(new Vector3D(0, 0, 0))
 
-let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rv.value)
+const point = ref(new Vector3D(0, 1, 5))
+const force = ref(new Vector3D(0, -1, 0))
+
+const v = ref(new Vector3D(0, 0, 0))
+const angle = ref(0)
+const axis = ref(new Vector3D(0, 0, 1))
+
+let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rc)
 dominos.value.push(domino)
 
 const { Play, Pause } = useInterval(100, () => {
@@ -32,34 +38,51 @@ const { Play, Pause } = useInterval(100, () => {
   tick.value++
 })
 
+const Force = () => {
+  Stop()
+  const { acceleration, angularacceleration } = domino.Force(point.value, force.value)
+  domino.Accelerate(acceleration)
+  domino.AngularAccelerate(Rotate(angularacceleration.axis, angularacceleration.angle))
+  v.value = domino.velocity
+  axis.value = angularacceleration.axis
+  angle.value = angularacceleration.angle
+  Play()
+}
+
 const Stop = () => {
   Pause()
   domino.position = new Vector3D(0, 0, 5)
   domino.rotation = rc.copy()
+  domino.velocity = new Vector3D(0, 0, 0)
+  domino.angularvelocity = rc.copy()
   tick.value++
 }
-
-watch(rv, (value) => {
-  domino.angularvelocity = value;
-})
-
-watch(v, (value) => {
-  domino.velocity = value;
-})
 
 const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, -1), new Vector3D(0, 0, 1), Math.PI / 8, 200)
 </script>
 
 <template>
   <div>
-    <h3> DominoMove </h3>
+    <h3> DominoForced </h3>
     <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
     <div>
-      <button @click="Play"> Play </button>
-      <button @click="Pause"> Pause </button>
+      <button @click="Force"> Force </button>
       <button @click="Stop"> Stop </button>
     </div>
-    <Vector3DInput name="velocity" v-model="v" :minX="-1" :maxX="1" :minY="-1" :maxY="1" :minZ="-1" :maxZ="1" :step="0.05" />
-    <RotateInput name="angularvelocity" v-model="rv" :minA="Math.PI / -10" :maxA="Math.PI / 10" :step="Math.PI / 500" />
+    
+    <div>
+      <Vector3DLabel name="velocity" :vector="v" />
+    </div>
+    <div>
+      <p>
+        angularvelocity:
+      </p>
+      <p>
+        angle: {{ angle }}
+      </p>
+      <p>
+        <Vector3DLabel name="axis" :vector="axis" />
+      </p>
+    </div>
   </div>
 </template>

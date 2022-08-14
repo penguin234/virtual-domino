@@ -1,4 +1,5 @@
 import Applier from '../3d-transforms/applier';
+import Translate from '../3d-transforms/translate';
 
 
 function Domino(frame, position, rotation, velocity, angularvelocity) {
@@ -35,7 +36,41 @@ Domino.prototype.GetFigure = function() {
 Domino.prototype.Move = function() {
     this.position.add(this.velocity);
     this.rotation = Applier.merge(this.rotation, this.angularvelocity);
+};
+
+Domino.prototype.ConvertForceCoord = function(point, force) {
+    let p = point.copy();
+    let f = force.copy();
+
+    const positionInverse = Translate(this.position.x * -1, this.position.y * -1, this.position.z * -1);
+    const rotationInverse = this.rotation.T();
+    const Inverse = Applier.merge(positionInverse, rotationInverse);
+
+    p = Applier.toPoint(p, Inverse);
+    f = Applier.toVector(f, Inverse);
+
+    return { p, f };
 }
+
+Domino.prototype.Force = function(point, force) {
+    const { p, f } = this.ConvertForceCoord(point, force);
+    const acceleration = this.frame.ApplyForce(p, f);
+    const angularacceleration = this.frame.ApplyTorque(p, f);
+
+    return { acceleration, angularacceleration };
+};
+
+Domino.prototype.Accelerate = function(a) {
+    this.velocity.add(a);
+
+    return this;
+};
+
+Domino.prototype.AngularAccelerate = function(ra) {
+    this.angularvelocity = Applier.merge(this.angularvelocity, ra);
+
+    return this;
+};
 
 
 export default Domino;

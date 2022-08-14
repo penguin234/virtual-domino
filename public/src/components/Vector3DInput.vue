@@ -1,6 +1,7 @@
 <script setup>
 import Vector3D from '@/library/3d-elements/vector3d'
 import { ref, watch, watchEffect } from 'vue'
+import Vector3DLabel from '@/components/Vector3DLabel.vue'
 
 const props = defineProps({
     name: {
@@ -57,7 +58,7 @@ watchEffect(() => {
 
 <template>
     <div>
-        <p> <span v-if="name"> {{ name }}: </span> ({{ X }}, {{ Y }}, {{ Z }}) </p>
+        <Vector3DLabel :name="name" :vector="props.modelValue" />
 
         <label for="X">X: </label>
         <input name="X" type="range" :min="props.minX" :max="props.maxX" :step="props.step" v-model.number="X" />
