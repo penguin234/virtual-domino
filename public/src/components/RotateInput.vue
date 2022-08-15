@@ -9,9 +9,6 @@ const props = defineProps({
     name: {
         type: String
     },
-    modelValue: {
-        type: Object
-    },
     minA: {
         type: Number,
         default: 0

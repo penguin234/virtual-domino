@@ -5,11 +5,13 @@ import PerspectiveCamera from '../library/camera/perspectivecamera';
 export function useCamera(position, lookDirection, upDirection, horizontalAngle, viewboxWidth) {
     const camera = new PerspectiveCamera(null, null, null, null, null);
     const projection = ref(null);
+    const properUpdirection = ref(null)
 
     function moveCamera() {
         camera.position = unref(position);
         camera.lookdirection = unref(lookDirection);
-        camera.updirection = camera.GetProperUpdirection(unref(upDirection));
+        properUpdirection.value = camera.GetProperUpdirection(unref(upDirection));
+        camera.updirection = properUpdirection.value
         camera.horizontalangle = unref(horizontalAngle);
         camera.viewboxwidth = unref(viewboxWidth);
 
@@ -23,5 +25,5 @@ export function useCamera(position, lookDirection, upDirection, horizontalAngle,
         moveCamera();
     }
 
-    return { projection };
+    return { projection, properUpdirection };
 }

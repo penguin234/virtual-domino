@@ -35,6 +35,9 @@ const figure = reactive({
 const rendermachine = new RenderMachine(props.projection)
 
 function render() {
+    if (!props.projection) {
+        return
+    }
     rendermachine.SetCamera(props.projection)
     figure.surfaces = []
     for (const domino of props.dominos) {

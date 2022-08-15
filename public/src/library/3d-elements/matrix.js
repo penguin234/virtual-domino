@@ -5,7 +5,7 @@ function Matrix() {
 Matrix.prototype.toString = function() {
     let res = '';
     for(const row of this.matrix) {
-        line = '|';
+        let line = '|';
         for (const value of row) {
             line += String(value) + '\t';
         }
