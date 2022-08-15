@@ -63,6 +63,7 @@ VectorFigure.GetBaseFigure = function() {
 
 VectorFigure.prototype.GetFigure = function() {
     const d = this.vector.copy().normalize();
+    const s = this.vector.abs();
     /*
     const rotation = new Matrix4By4(
         1, 0, 0, 0,
@@ -73,7 +74,7 @@ VectorFigure.prototype.GetFigure = function() {
     */
     const z = new Vector3D(0, 0, 1);
     const rotation = Rotate(z.outerProduct(d), Math.acos(z.innerProduct(d)));
-    const scale = Scale(this.scalefactor, this.scalefactor, this.scalefactor);
+    const scale = Scale(this.scalefactor * s, this.scalefactor * s, this.scalefactor * s);
     const translate = Translate(this.point.x, this.point.y, this.point.z);
     const transform = Applier.merge(Applier.merge(rotation, scale), translate);
 

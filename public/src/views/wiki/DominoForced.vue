@@ -21,18 +21,28 @@ const dominos = ref([])
 
 const rc = Rotate(new Vector3D(0, 0, 1), 0)
 
-const point = ref(new Vector3D(0, 1, 6))
-const force = ref(new Vector3D(0, -20, 0))
-const forceinfo = computed(() => {
-  return { point: point.value, vector: force.value }
-})
-
 const v = ref(new Vector3D(0, 0, 0))
 const angle = ref(0)
 const axis = ref(new Vector3D(0, 0, 1))
 
 let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rc)
 dominos.value.push(domino)
+
+const pushx = ref(0.5)
+const pushz = ref(0.5)
+const size = ref(10)
+
+const point = computed(() => {
+  const realx = domino.position.x + domino.frame.width * (pushx.value - 0.5)
+  const realz = domino.position.z + domino.frame.height * (pushz.value - 0.5)
+  return new Vector3D(realx, 1, realz)
+})
+const force = computed(() => {
+  return new Vector3D(0, size.value * -1, 0)
+})
+const forceinfo = computed(() => {
+  return { point: point.value, vector: force.value }
+})
 
 const { Play, Pause, isActive } = useInterval(50, () => {
   for (let domino of dominos.value) {
@@ -68,8 +78,13 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
 <template>
   <div>
     <h3> DominoForced </h3>
-    <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :vectors="[forceinfo]" :projection="projection" />
+    <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :vectors="[{ point: point, vector: force }]" :projection="projection" />
     <div>
+      <div v-if=!isActive>
+        X : <input type="range" v-model.number="pushx" min="0" max="1" step="0.01"> <br>
+        Z : <input type="range" v-model.number="pushz" min="0" max="1" step="0.01"> <br>
+        Size: <input type="range" v-model.number="size" min="2" max="20" step="1"> <br>
+      </div>
       <Vector3DLabel name="point" :vector="point" />
       <Vector3DLabel name="force" :vector="force" />
       <button @click="Force" v-if="!isActive"> Force </button>

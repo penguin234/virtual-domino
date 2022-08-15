@@ -43,7 +43,7 @@ function render() {
         }
     }
     for (const vector of props.vectors) {
-        let vectorfigure = new VectorFigure(vector.point, vector.vector, 10);
+        let vectorfigure = new VectorFigure(vector.point, vector.vector, 1);
         for (const surface of rendermachine.RenderFigure(vectorfigure.GetFigure())) {
             figure.surfaces.push(surface)
         }
