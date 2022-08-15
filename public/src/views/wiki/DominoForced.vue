@@ -4,7 +4,7 @@ import Rotate from '@/library/3d-transforms/rotate'
 import DominoFrame from '@/library/domino-stuffs/dominoframe'
 import Domino from '@/library/domino-stuffs/domino'
 
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 import ViewPlate from '@/components/ViewPlate.vue'
 import Vector3DInput from '@/components/Vector3DInput.vue'
@@ -23,6 +23,9 @@ const rc = Rotate(new Vector3D(0, 0, 1), 0)
 
 const point = ref(new Vector3D(0, 1, 6))
 const force = ref(new Vector3D(0, -20, 0))
+const forceinfo = computed(() => {
+  return { point: point.value, vector: force.value }
+})
 
 const v = ref(new Vector3D(0, 0, 0))
 const angle = ref(0)
@@ -65,8 +68,10 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
 <template>
   <div>
     <h3> DominoForced </h3>
-    <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
+    <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :vectors="[forceinfo]" :projection="projection" />
     <div>
+      <Vector3DLabel name="point" :vector="point" />
+      <Vector3DLabel name="force" :vector="force" />
       <button @click="Force" v-if="!isActive"> Force </button>
       <button @click="Stop" v-if="isActive"> Stop </button>
     </div>

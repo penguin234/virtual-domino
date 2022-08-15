@@ -2,6 +2,7 @@
 import { reactive, computed, watch, watchEffect, onMounted } from 'vue'
 
 import RenderMachine from '@/library/render-system/render'
+import VectorFigure from '@/library/assistant-stuffs/vectorfigure'
 
 const props = defineProps({
     tick: {
@@ -9,7 +10,12 @@ const props = defineProps({
         default: 0
     },
     dominos: {
-        type: Array
+        type: Array,
+        default: []
+    },
+    vectors: {
+        type: Array,
+        default: []
     },
     projection: {
         type: Object
@@ -23,17 +29,23 @@ const props = defineProps({
 })
 
 const figure = reactive({
-    rects: []
+    surfaces: []
 })
 
 const rendermachine = new RenderMachine(props.projection)
 
 function render() {
     rendermachine.SetCamera(props.projection)
-    figure.rects = []
+    figure.surfaces = []
     for (const domino of props.dominos) {
         for (const rect of rendermachine.RenderFigure(domino.GetFigure())) {
-            figure.rects.push(rect)
+            figure.surfaces.push(rect)
+        }
+    }
+    for (const vector of props.vectors) {
+        let vectorfigure = new VectorFigure(vector.point, vector.vector, 10);
+        for (const surface of rendermachine.RenderFigure(vectorfigure.GetFigure())) {
+            figure.surfaces.push(surface)
         }
     }
 }
@@ -53,7 +65,7 @@ watchEffect(() => {
 })
 
 const rectsordered = computed(() => {
-    const res = figure.rects.filter(() => true);
+    const res = figure.surfaces.filter(() => true);
     res.sort(function(a, b) {
         return b.zorder - a.zorder
     })
