@@ -1,5 +1,6 @@
 import Point2D from '../3d-elements/point2d'
 import Applier from '../3d-transforms/applier'
+import { traverseNode } from '@vue/compiler-dom';
 
 
 function RenderMachine(projection) {
@@ -17,7 +18,7 @@ RenderMachine.prototype.RenderSurface = function(surface) {
     };
 
     res.points = surface.points.map(p => Point2D.NormalizeProjectedPoint(Applier.toPoint(p, this.projection)));
-    res.zorder = res.points.map(p => p.d).reduce((d1, d2) => d1 + d2);
+    res.zorder = res.points.map(p => p.d).reduce((d1, d2) => d1 + d2) / res.points.length;
 
     return res;
 }

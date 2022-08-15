@@ -86,7 +86,7 @@ onMounted(() => {
 <template>
     <svg :width="width" :height="height" :view-box.camel="viewbox" style="outline: 2px solid red;">
         <template v-for="rect in rectsordered">
-            <polygon :points="mergePoints(rect.points)" style="fill:green;stroke:black;stroke-width:1" />
+            <polygon :points="mergePoints(rect.points)" style="fill:green;stroke:black;stroke-width:0.3" />
         </template>
     </svg>
 </template>

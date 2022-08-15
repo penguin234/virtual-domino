@@ -1,4 +1,5 @@
 import Matrix4By4 from '../3d-elements/matrix4by4';
+import Rotate from '../3d-transforms/rotate';
 import Scale from '../3d-transforms/scale';
 import Translate from '../3d-transforms/translate';
 import Applier from '../3d-transforms/applier';
@@ -11,8 +12,8 @@ function VectorFigure(point, vector, scalefactor) {
 }
 
 VectorFigure.GetBaseFigure = function() {
-    const tipLength = 0.2;
-    const tipWidth = 0.4;
+    const tipLength = 0.3;
+    const tipWidth = 0.3;
     const tailWidth = 0.1;
     const length = 1;
 
@@ -62,12 +63,16 @@ VectorFigure.GetBaseFigure = function() {
 
 VectorFigure.prototype.GetFigure = function() {
     const d = this.vector.copy().normalize();
+    /*
     const rotation = new Matrix4By4(
         1, 0, 0, 0,
         0, 1, 0, 0,
         d.x, d.y, d.z, 0,
         0, 0, 0, 1
     );
+    */
+    const z = new Vector3D(0, 0, 1);
+    const rotation = Rotate(z.outerProduct(d), Math.acos(z.innerProduct(d)));
     const scale = Scale(this.scalefactor, this.scalefactor, this.scalefactor);
     const translate = Translate(this.point.x, this.point.y, this.point.z);
     const transform = Applier.merge(Applier.merge(rotation, scale), translate);
