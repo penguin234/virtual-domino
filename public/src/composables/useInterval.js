@@ -2,17 +2,21 @@ import { ref, unref, isRef } from 'vue';
 
 export function useInterval(interval, callback) {
     const timerId = ref(null);
+    const isActive = ref(false);
 
     const Play = () => {
-        if (timerId.value) {
-            clearInterval(timerId.value);
+        if (!isActive.value) {
+            timerId.value = setInterval(unref(callback), unref(interval));
+            isActive.value = true;
         }
-        timerId.value = setInterval(unref(callback), unref(interval));
     };
 
     const Pause = () => {
-        clearInterval(timerId.value);
+        if (isActive.value) {
+            clearInterval(timerId.value);
+            isActive.value = false;
+        }
     };
 
-    return { Play, Pause };
+    return { Play, Pause, isActive };
 }

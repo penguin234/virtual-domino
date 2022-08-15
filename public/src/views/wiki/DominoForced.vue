@@ -31,7 +31,7 @@ const axis = ref(new Vector3D(0, 0, 1))
 let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rc)
 dominos.value.push(domino)
 
-const { Play, Pause } = useInterval(50, () => {
+const { Play, Pause, isActive } = useInterval(50, () => {
   for (let domino of dominos.value) {
     domino.Move()
   }
@@ -67,8 +67,8 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
     <h3> DominoForced </h3>
     <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
     <div>
-      <button @click="Force"> Force </button>
-      <button @click="Stop"> Stop </button>
+      <button @click="Force" v-if="!isActive"> Force </button>
+      <button @click="Stop" v-if="isActive"> Stop </button>
     </div>
     
     <div>

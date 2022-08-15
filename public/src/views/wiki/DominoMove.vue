@@ -25,7 +25,7 @@ const v = ref(new Vector3D(0, 0, 0))
 let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rv.value)
 dominos.value.push(domino)
 
-const { Play, Pause } = useInterval(100, () => {
+const { Play, Pause, isActive } = useInterval(100, () => {
   for (let domino of dominos.value) {
     domino.Move()
   }
@@ -55,8 +55,8 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
     <h3> DominoMove </h3>
     <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
     <div>
-      <button @click="Play"> Play </button>
-      <button @click="Pause"> Pause </button>
+      <button @click="Play" v-if="!isActive"> Play </button>
+      <button @click="Pause" v-if="isActive"> Pause </button>
       <button @click="Stop"> Stop </button>
     </div>
     <Vector3DInput name="velocity" v-model="v" :minX="-1" :maxX="1" :minY="-1" :maxY="1" :minZ="-1" :maxZ="1" :step="0.05" />
