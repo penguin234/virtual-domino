@@ -39,13 +39,13 @@ function render() {
     figure.surfaces = []
     for (const domino of props.dominos) {
         for (const rect of rendermachine.RenderFigure(domino.GetFigure())) {
-            figure.surfaces.push(rect)
+            figure.surfaces.push({...rect, fill: 'green'})
         }
     }
     for (const vector of props.vectors) {
         let vectorfigure = new VectorFigure(vector.point, vector.vector, 1);
         for (const surface of rendermachine.RenderFigure(vectorfigure.GetFigure())) {
-            figure.surfaces.push(surface)
+            figure.surfaces.push({...surface, fill: 'orange'})
         }
     }
 }
@@ -55,6 +55,7 @@ function mergePoints(points) {
     for (const point of points) {
         res += String(point.x) + ',' + String(point.y) + ' '
     }
+    res = res.slice(0, -2)
     return res
 }
 
@@ -64,7 +65,7 @@ watchEffect(() => {
     render()
 })
 
-const rectsordered = computed(() => {
+const surfacessordered = computed(() => {
     const res = figure.surfaces.filter(() => true);
     res.sort(function(a, b) {
         return b.zorder - a.zorder
@@ -85,8 +86,8 @@ onMounted(() => {
 
 <template>
     <svg :width="width" :height="height" :view-box.camel="viewbox" style="outline: 2px solid red;">
-        <template v-for="rect in rectsordered">
-            <polygon :points="mergePoints(rect.points)" style="fill:green;stroke:black;stroke-width:0.3" />
+        <template v-for="surface in surfacessordered">
+            <polygon :fill="surface.fill" style="stroke:black;stroke-width:0.3" :points="mergePoints(surface.points)" />
         </template>
     </svg>
 </template>
