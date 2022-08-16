@@ -15,6 +15,9 @@ export function useCamera(position, lookDirection, upDirection, horizontalAngle,
         camera.horizontalangle = unref(horizontalAngle);
         camera.viewboxwidth = unref(viewboxWidth);
 
+        console.log(camera)
+        console.log(camera.GetProjectionTransform())
+
         projection.value = camera.GetProjectionTransform();
     }
 
