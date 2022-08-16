@@ -1,10 +1,14 @@
 <script setup>
+console.log('a-4')
 import { ref, watch } from 'vue'
 
+console.log('a-3')
 import Vector3D from '@/library/3d-elements/vector3d'
 
+console.log('a-2')
 import Vector3DInput from '@/components/Vector3DInput.vue'
 
+console.log('a-1')
 import { useCamera } from '@/composables/useCamera'
 
 console.log('a1')
