@@ -1,4 +1,6 @@
-import Matrix4By4 from '../3d-elements/matrix4by4'
+import Matrix4By4 from '../3d-elements/matrix4by4';
+import Vector3D from '../3d-elements/vector3d';
+import Applier from '../3d-transforms/applier';
 
 
 function Rotate(axis, angle) {
@@ -22,6 +24,42 @@ function Rotate(axis, angle) {
 
     return matrix;
 }
+
+Rotate.GetMetadata = function(rotation) {
+    let p1 = new Vector3D(1, 0, 0);
+    let p2 = new Vector3D(0, 1, 0);
+    let q1 = Applier.toVector(p1, rotation).sub(p1);
+    let q2 = Applier.toVector(p2, rotation).sub(p2);
+    let axis = null;
+    if (q1.abs == 0) {
+        axis = p1;
+    }
+    else if (q2.abs == 0) {
+        axis = p2;
+    }
+    else {
+        axis = q1.outerProduct(q2);
+        if (axis.abs() == 0) {
+            let p3 = new Vector3D(0, 0, 1);
+            let q3 = Applier.toVector(p3, rotation).sub(p3);
+            if (q3.abs() == 0) {
+                axis = p3;
+            }
+            else {
+                axis = q1.outerProduct(q3);
+            }
+        }
+    }
+
+    let target = axis.copy();
+    target.add(new Vector3D(1, 1, 1));
+    target = target.outerProduct(axis);
+
+    let cosA = Applier.toVector(target, rotation).innerProduct(target);
+    let angle = Math.acos(cosA);
+
+    return { axis, angle };
+};
 
 
 export default Rotate;
