@@ -75,6 +75,7 @@ const Stop = () => {
 }
 
 const projection = ref(null)
+console.log('DominoForced page build completed')
 </script>
 
 <template>
