@@ -13,6 +13,7 @@ import RotateInput from '@/components/RotateInput.vue'
 import Vector3DLabel from '@/components/Vector3DLabel.vue'
 
 import { useInterval } from '@/composables/useInterval'
+import { useCamera } from '@/composables/useCamera'
 
 const tick = ref(0)
 
@@ -33,19 +34,16 @@ const pushz = ref(0.5)
 const size = ref(10)
 
 const point = computed(() => {
-  console.log('c1')
   const realx = domino.position.x + domino.frame.width * (pushx.value - 0.5)
   const realz = domino.position.z + domino.frame.height * (pushz.value - 0.5)
   return new Vector3D(realx, 1, realz)
 })
 
 const force = computed(() => {
-  console.log('c2')
   return new Vector3D(0, size.value * -1, 0)
 })
 
 const { Play, Pause, isActive } = useInterval(50, () => {
-  console.log('c3')
   for (let domino of dominos.value) {
     domino.Move()
   }
@@ -53,7 +51,6 @@ const { Play, Pause, isActive } = useInterval(50, () => {
 })
 
 const Force = () => {
-  console.log('c4')
   Stop()
   const { acceleration, angularacceleration } = domino.Force(point.value, force.value)
   domino.Accelerate(acceleration)
@@ -65,7 +62,6 @@ const Force = () => {
 }
 
 const Stop = () => {
-  console.log('c5')
   Pause()
   domino.position = new Vector3D(0, 0, 5)
   domino.rotation = rc.copy()
@@ -74,15 +70,12 @@ const Stop = () => {
   tick.value++
 }
 
-const projection = ref(null)
-console.log('DominoForced page build completed')
+const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, -1), new Vector3D(0, 0, 1), Math.PI / 8, 200)
 </script>
 
 <template>
   <div>
     <h3> DominoForced </h3>
-
-    <CameraController v-model="projection" :position="new Vector3D(40, 40, 40)" :lookdirection="new Vector3D(-1, -1, -1)" :updirection="new Vector3D(0, 0, 1)" :horizontalangle="Math.PI / 8" :viewboxwidth="200" />
 
     <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :vectors="[{ point: point, vector: force }]" :projection="projection" />
     <div>

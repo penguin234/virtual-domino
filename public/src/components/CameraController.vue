@@ -1,17 +1,12 @@
 <script setup>
-console.log('a-4')
 import { ref, watch } from 'vue'
 
-console.log('a-3')
 import Vector3D from '@/library/3d-elements/vector3d'
 
-console.log('a-2')
 import Vector3DInput from '@/components/Vector3DInput.vue'
 
-console.log('a-1')
 import { useCamera } from '@/composables/useCamera'
 
-console.log('a1')
 const props = defineProps({
     position: {
         type: Object,
@@ -34,21 +29,13 @@ const props = defineProps({
         required: true
     }
 })
-console.log('a2')
 const emit = defineEmits(['update:modelValue'])
-console.log('a3')
 
 const position = ref(props.position)
 const lookdirection = ref(props.lookdirection)
 const updirection = ref(props.updirection)
 const horizontalangle = ref(props.horizontalangle)
 const viewboxwidth = ref(props.viewboxwidth)
-
-console.log('position', position.value)
-console.log('lookdirection', lookdirection.value)
-console.log('updirection', updirection.value)
-console.log('horizontalangle', horizontalangle.value)
-console.log('viewboxwidth', viewboxwidth.value)
 
 const { projection, properUpdirection } = useCamera(position, lookdirection, updirection, horizontalangle, viewboxwidth)
 

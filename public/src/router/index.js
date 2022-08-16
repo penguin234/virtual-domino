@@ -19,6 +19,11 @@ const router = createRouter({
 
       children: [
         {
+          path: 'cameratest',
+          name: 'cameratest',
+          component: () => import('../views/wiki/CameraTest.vue')
+        },
+        {
           path: 'domino',
           name: 'domino',
           component: () => import('../views/wiki/StaticDomino.vue')
