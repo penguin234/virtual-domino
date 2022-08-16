@@ -12,35 +12,41 @@ import Vector3DInput from '@/components/Vector3DInput.vue'
 import RotateInput from '@/components/RotateInput.vue'
 import Vector3DLabel from '@/components/Vector3DLabel.vue'
 
-import { useCamera } from '@/composables/useCamera'
 import { useInterval } from '@/composables/useInterval'
 
 const tick = ref(0)
 
 const frame = new DominoFrame(5, 2, 10, 100)
 const dominos = ref([])
+console.log('1')
 
 const rc = Rotate(new Vector3D(0, 0, 1), 0)
+console.log('2')
 
 const v = ref(new Vector3D(0, 0, 0))
 const angle = ref(0)
 const axis = ref(new Vector3D(0, 0, 1))
+console.log('3')
 
 let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rc)
 dominos.value.push(domino)
+console.log('4')
 
 const pushx = ref(0.5)
 const pushz = ref(0.5)
 const size = ref(10)
+console.log('5')
 
 const point = computed(() => {
   const realx = domino.position.x + domino.frame.width * (pushx.value - 0.5)
   const realz = domino.position.z + domino.frame.height * (pushz.value - 0.5)
   return new Vector3D(realx, 1, realz)
 })
+console.log('6')
 const force = computed(() => {
   return new Vector3D(0, size.value * -1, 0)
 })
+console.log('7')
 
 const { Play, Pause, isActive } = useInterval(50, () => {
   for (let domino of dominos.value) {
@@ -48,6 +54,7 @@ const { Play, Pause, isActive } = useInterval(50, () => {
   }
   tick.value++
 })
+console.log('8')
 
 const Force = () => {
   Stop()
@@ -59,6 +66,7 @@ const Force = () => {
   angle.value = angularacceleration.angle
   Play()
 }
+console.log('9')
 
 const Stop = () => {
   Pause()
@@ -68,8 +76,10 @@ const Stop = () => {
   domino.angularvelocity = rc.copy()
   tick.value++
 }
+console.log('10')
 
 const projection = ref(null)
+console.log('11')
 </script>
 
 <template>
