@@ -38,6 +38,12 @@ const updirection = ref(props.updirection)
 const horizontalangle = ref(props.horizontalangle)
 const viewboxwidth = ref(props.viewboxwidth)
 
+console.log('position', position.value)
+console.log('lookdirection', lookdirection.value)
+console.log('updirection', updirection.value)
+console.log('horizontalangle', horizontalangle.value)
+console.log('viewboxwidth', viewboxwidth.value)
+
 const { projection, properUpdirection } = useCamera(position, lookdirection, updirection, horizontalangle, viewboxwidth)
 
 emit('update:modelValue', projection.value)
