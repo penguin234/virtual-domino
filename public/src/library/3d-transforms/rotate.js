@@ -26,36 +26,44 @@ function Rotate(axis, angle) {
 }
 
 Rotate.GetMetadata = function(rotation) {
+    const zeroexpect = Math.pow(10, -10);
+    const isZero = (n) => Math.abs(n) < zeroexpect;
+
     let p1 = new Vector3D(1, 0, 0);
     let p2 = new Vector3D(0, 1, 0);
     let q1 = Applier.toVector(p1, rotation).sub(p1);
     let q2 = Applier.toVector(p2, rotation).sub(p2);
     let axis = null;
-    if (q1.abs == 0) {
+    let seed = null;
+    if (isZero(q1.abs())) {
         axis = p1;
+        seed = p2;
     }
-    else if (q2.abs == 0) {
+    else if (isZero(q2.abs())) {
         axis = p2;
+        seed = p1;
     }
     else {
         axis = q1.outerProduct(q2);
-        if (axis.abs() == 0) {
+        seed = q1;
+        if (isZero(axis.abs())) {
             let p3 = new Vector3D(0, 0, 1);
             let q3 = Applier.toVector(p3, rotation).sub(p3);
             if (q3.abs() == 0) {
                 axis = p3;
+                seed = p1;
             }
             else {
                 axis = q1.outerProduct(q3);
+                seed = q1;
             }
         }
     }
 
-    let target = axis.copy();
-    target.add(new Vector3D(1, 1, 1));
-    target = target.outerProduct(axis);
+    axis.normalize();
+    seed.normalize();
 
-    let cosA = Applier.toVector(target, rotation).innerProduct(target);
+    let cosA = Applier.toVector(seed, rotation).innerProduct(seed);
     let angle = Math.acos(cosA);
 
     return { axis, angle };

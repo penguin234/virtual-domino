@@ -54,9 +54,9 @@ const { Play, Pause, isActive } = useInterval(50, () => {
     domino.Move()
   }
   v.value = domino.velocity
-  //const av = Rotate.GetMetadata(domino.angularvelocity);
-  //axis.value = av.axis;
-  //angle.value = av.angle;
+  const av = Rotate.GetMetadata(domino.angularvelocity);
+  axis.value = av.axis;
+  angle.value = av.angle;
   tick.value++
 })
 

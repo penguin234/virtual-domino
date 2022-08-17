@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <h2> Wiki </h2>
 
