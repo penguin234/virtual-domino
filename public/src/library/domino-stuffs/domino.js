@@ -1,5 +1,6 @@
 import Applier from '../3d-transforms/applier';
 import Translate from '../3d-transforms/translate';
+import Vector3D from '../3d-elements/vector3d';
 
 
 function Domino(frame, position, rotation, velocity, angularvelocity) {
@@ -32,6 +33,25 @@ Domino.prototype.GetFigure = function() {
 
     return surfaces;
 };
+
+Domino.prototype.GetPoints = function() {
+    const seeds = this.frame.GetSeedVectors(this.rotation);
+
+    const p = 1;
+    const n = -1;
+    let points = [
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(p)),
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(n)),
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(n)),
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(p)),
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(p)),
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(n)),
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(n)),
+        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(p))
+    ];
+
+    return points;
+}
 
 Domino.prototype.Move = function() {
     this.position.add(this.velocity);

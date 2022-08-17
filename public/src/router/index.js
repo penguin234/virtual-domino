@@ -47,6 +47,11 @@ const router = createRouter({
           path: 'dominogravity',
           name: 'dominogravity',
           component: () => import('../views/wiki/DominoGravity.vue')
+        },
+        {
+          path: 'flooroperating',
+          name: 'flooroperating',
+          component: () => import('../views/wiki/FloorOperating.vue')
         }
       ]
     },
