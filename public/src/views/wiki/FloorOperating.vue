@@ -3,6 +3,7 @@ import Vector3D from '@/library/3d-elements/vector3d'
 import Rotate from '@/library/3d-transforms/rotate'
 import DominoFrame from '@/library/domino-stuffs/dominoframe'
 import Domino from '@/library/domino-stuffs/domino'
+import DominoSystem from '@/library/domino-stuffs/dominosystem'
 
 import { ref, computed, watch } from 'vue'
 
@@ -32,9 +33,14 @@ const gravityAcceleration = computed(() => new Vector3D(0, 0, gravity.value * -1
 let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rc)
 dominos.value.push(domino)
 
+let dominosystem = new DominoSystem();
+
 const pushx = ref(0.5)
 const pushz = ref(0.5)
 const size = ref(10)
+
+const colp = ref(null)
+const colv = ref(null)
 
 const point = computed(() => {
   const realx = domino.position.x + domino.frame.width * (pushx.value - 0.5)
@@ -53,6 +59,11 @@ const { Play, Pause, isActive } = useInterval(50, () => {
     domino.AngularAccelerate(Rotate(angularacceleration.axis, angularacceleration.angle))
     domino.Move()
   }
+  
+  const collision = DominoSystem.CheckFloorCollisions(domino)
+  colp.value = collision.point
+  colv.value = collision.velocity
+
   v.value = domino.velocity
   const av = Rotate.GetMetadata(domino.angularvelocity);
   axis.value = av.axis;
@@ -121,6 +132,17 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
         <p>
           <Vector3DLabel name="axis" :vector="axis" />
         </p>
+      </div>
+
+      <div>
+        <h4> CollisionInfo </h4>
+        <template v-if="colp">
+          <Vector3DLabel name="point" :vector="colp" />
+          <Vector3DLabel name="velocity" :vector="colv" />
+        </template>
+        <template v-else>
+          No collision
+        </template>
       </div>
     </div>
   </div>

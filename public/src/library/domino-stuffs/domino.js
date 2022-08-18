@@ -40,14 +40,14 @@ Domino.prototype.GetPoints = function() {
     const p = 1;
     const n = -1;
     let points = [
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(p)),
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(n)),
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(n)),
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(p)),
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(p)),
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(n)),
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(n)),
-        new Vector3D(0, 0, 0).add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(p))
+        this.position.copy().add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(p)),
+        this.position.copy().add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(n)),
+        this.position.copy().add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(n)),
+        this.position.copy().add(seeds[0].copy().mult(p)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(p)),
+        this.position.copy().add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(p)),
+        this.position.copy().add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(p)).add(seeds[2].copy().mult(n)),
+        this.position.copy().add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(n)),
+        this.position.copy().add(seeds[0].copy().mult(n)).add(seeds[1].copy().mult(n)).add(seeds[2].copy().mult(p))
     ];
 
     return points;
@@ -92,6 +92,19 @@ Domino.prototype.AngularAccelerate = function(ra) {
     this.angularvelocity = Applier.merge(this.angularvelocity, ra);
 
     return this;
+};
+
+Domino.prototype.GetPointVelocity = function(point) {
+    const positionInverse = Translate(this.position.x * -1, this.position.y * -1, this.position.z * -1);
+    const rotationInverse = this.rotation.T();
+    const Inverse = Applier.merge(positionInverse, rotationInverse);
+
+    let p = Applier.toPoint(point, Inverse);
+    p = Applier.toPoint(p, Applier.merge(this.rotation, this.angularvelocity));
+    p.add(this.position).add(this.velocity);
+
+    let v = p.sub(point);
+    return v;
 };
 
 
