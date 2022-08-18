@@ -74,8 +74,10 @@ Domino.prototype.ConvertForceCoord = function(point, force) {
 
 Domino.prototype.Force = function(point, force) {
     const { p, f } = this.ConvertForceCoord(point, force);
-    const acceleration = this.frame.ApplyForce(p, force);
-    const angularacceleration = this.frame.ApplyTorque(p, f);
+    let acceleration = this.frame.ApplyForce(p, f);
+    let angularacceleration = this.frame.ApplyTorque(p, f);
+    acceleration = Applier.toVector(acceleration, this.rotation);
+    angularacceleration.axis = Applier.toVector(angularacceleration.axis, this.rotation);
 
     return { acceleration, angularacceleration };
 };
