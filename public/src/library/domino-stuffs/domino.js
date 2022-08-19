@@ -70,7 +70,26 @@ Domino.prototype.ConvertForceCoord = function(point, force) {
     f = Applier.toVector(f, Inverse);
 
     return { p, f };
-}
+};
+
+Domino.prototype.GetAccelerationForce = function(point, direction, acceleration) {
+    if (acceleration < Math.pow(10, -10)) {
+        return new Vector3D(0, 0, 0);
+    }
+    let forceSize = null
+    const { p, f } = this.ConvertForceCoord(point, direction);
+    const axis = p.outerProduct(f);
+    const M = this.frame.mass;
+    const d = direction.copy().normalize();
+    if (axis.abs() == 0) {
+        forceSize = acceleration * M;
+    }
+    else {
+        const I = this.frame.GetI(axis);
+        forceSize = acceleration / (1 / M + point.abs() * point.outerProduct(d).abs() / I);
+    }
+    return d.mult(forceSize);
+};
 
 Domino.prototype.Force = function(point, force) {
     const { p, f } = this.ConvertForceCoord(point, force);

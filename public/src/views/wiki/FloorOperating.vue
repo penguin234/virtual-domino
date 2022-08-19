@@ -30,40 +30,47 @@ const axis = ref(new Vector3D(0, 0, 1))
 const gravity = ref(0.001)
 const gravityAcceleration = computed(() => new Vector3D(0, 0, gravity.value * -1))
 
-let domino = new Domino(frame, new Vector3D(0, 0, 5), rc, v.value, rc)
-dominos.value.push(domino)
-
 let dominosystem = new DominoSystem();
 
-const pushx = ref(0.5)
-const pushz = ref(0.5)
-const size = ref(10)
+const initialangle = ref(0)
+const initialheight = ref(0)
 
+const norm = new Vector3D(0, 0, 1)
 const colp = ref(null)
 const colv = ref(null)
+const drag = ref(null)
 
-const point = computed(() => {
-  const realx = domino.position.x + domino.frame.width * (pushx.value - 0.5)
-  const realz = domino.position.z + domino.frame.height * (pushz.value - 0.5)
-  return new Vector3D(realx, 1, realz)
+const InitialRotation = computed(() => {
+  return Rotate(new Vector3D(1, 0, 0), initialangle.value)
 })
 
-const force = computed(() => {
-  return new Vector3D(0, size.value * -1, 0)
+const InitialPoint = computed(() => {
+  return new Vector3D(0, 0, 5 + initialheight.value)
 })
+
+
+let domino = new Domino(frame, new Vector3D(0, 0, 0), rc, v.value, rc)
+dominos.value.push(domino)
 
 const { Play, Pause, isActive } = useInterval(50, () => {
   for (let domino of dominos.value) {
-    const { acceleration, angularacceleration } = domino.Force(domino.position, gravityAcceleration.value.copy().mult(domino.frame.mass))
+    let { acceleration, angularacceleration } = domino.Force(domino.position, gravityAcceleration.value.copy().mult(domino.frame.mass))
     domino.Accelerate(acceleration)
     domino.AngularAccelerate(Rotate(angularacceleration.axis, angularacceleration.angle))
+
+    const collision = DominoSystem.CheckFloorCollisions(domino)
+    colp.value = collision.point
+    colv.value = collision.velocity
+    if (collision.point) {
+      drag.value = domino.GetAccelerationForce(collision.point, norm, norm.innerProduct(collision.velocity) * -1)
+      let { acceleration, angularacceleration } = domino.Force(collision.point, drag.value)
+      domino.Accelerate(acceleration)
+      domino.AngularAccelerate(Rotate(angularacceleration.axis, angularacceleration.angle))
+    }
+
     domino.Move()
   }
   
-  const collision = DominoSystem.CheckFloorCollisions(domino)
-  colp.value = collision.point
-  colv.value = collision.velocity
-
   v.value = domino.velocity
   const av = Rotate.GetMetadata(domino.angularvelocity);
   axis.value = av.axis;
@@ -73,20 +80,17 @@ const { Play, Pause, isActive } = useInterval(50, () => {
 
 const Force = () => {
   Stop()
-  const { acceleration, angularacceleration } = domino.Force(point.value, force.value)
-  domino.Accelerate(acceleration)
-  domino.AngularAccelerate(Rotate(angularacceleration.axis, angularacceleration.angle))
   v.value = domino.velocity
   const av = Rotate.GetMetadata(domino.angularvelocity);
-  axis.value = angularacceleration.axis;
-  angle.value = angularacceleration.angle;
+  axis.value = av.axis;
+  angle.value = av.angle;
   Play()
 }
 
 const Stop = () => {
   Pause()
-  domino.position = new Vector3D(0, 0, 5)
-  domino.rotation = rc.copy()
+  domino.position = InitialPoint.value
+  domino.rotation = InitialRotation.value
   domino.velocity = new Vector3D(0, 0, 0)
   domino.angularvelocity = rc.copy()
   tick.value++
@@ -99,16 +103,17 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
   <div>
     <h3> FloorOperating </h3>
 
-    <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :vectors="[{ point: point, vector: force }]" :projection="projection" />
+    <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
     <div>
-      <h4> Force </h4>
-      <div v-if=!isActive>
-        X : <input type="range" v-model.number="pushx" min="0" max="1" step="0.01"> <br>
-        Z : <input type="range" v-model.number="pushz" min="0" max="1" step="0.01"> <br>
-        Size: <input type="range" v-model.number="size" min="2" max="20" step="1"> <br>
+      <h4> Initial Status </h4>
+      Angle : <input type="range" v-model.number="initialangle" :min="Math.PI / -2" :max="Math.PI / 2" :step="Math.PI / 100"> <br>
+      Height : <input type="range" v-model.number="initialheight" min="0" max="5" step="0.1"> <br>
+      <div>
+        <span> Rotation: </span>
+        <Vector3DLabel name="axis" :vector="new Vector3D(1, 0, 0)" />
+        <span> angle: {{ initialangle }} </span>
       </div>
-      <Vector3DLabel name="point" :vector="point" />
-      <Vector3DLabel name="force" :vector="force" />
+      <Vector3DLabel name="position" :vector="InitialPoint" />
       <button @click="Force" v-if="!isActive"> Force </button>
       <button @click="Stop" v-if="isActive"> Stop </button>
     </div>
@@ -139,6 +144,7 @@ const { projection } = useCamera(new Vector3D(40, 40, 40), new Vector3D(-1, -1, 
         <template v-if="colp">
           <Vector3DLabel name="point" :vector="colp" />
           <Vector3DLabel name="velocity" :vector="colv" />
+          <Vector3DLabel name="drag" :vector="drag" />
         </template>
         <template v-else>
           No collision
