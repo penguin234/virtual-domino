@@ -83,7 +83,7 @@ const viewbox = computed(() => {
 })
 
 onMounted(() => {
-    render()
+    //render()
 })
 </script>
 
