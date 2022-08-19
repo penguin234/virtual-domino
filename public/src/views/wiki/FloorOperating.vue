@@ -48,7 +48,6 @@ const InitialPoint = computed(() => {
   return new Vector3D(0, 0, 5 + initialheight.value)
 })
 
-
 let domino = new Domino(frame, new Vector3D(0, 0, 0), rc, v.value, rc)
 dominos.value.push(domino)
 
@@ -70,12 +69,20 @@ const { Play, Pause, isActive } = useInterval(50, () => {
 
     domino.Move()
   }
-  
+
   v.value = domino.velocity
   const av = Rotate.GetMetadata(domino.angularvelocity);
   axis.value = av.axis;
   angle.value = av.angle;
   tick.value++
+})
+
+watch([InitialPoint, InitialRotation], ([point, rotation]) => {
+  if (!isActive.value) {
+    domino.position = point
+    domino.rotation = rotation
+    tick.value++
+  }
 })
 
 const Force = () => {
