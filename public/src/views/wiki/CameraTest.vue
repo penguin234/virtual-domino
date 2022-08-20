@@ -30,13 +30,17 @@ watch([position, rotation], ([position, rotation]) => {
   tick.value++
 })
 
+const cameraposition = new Vector3D(40, 40, 40)
+const cameralookdirection = new Vector3D(-1, -1, -1)
+const cameraupdirection = new Vector3D(0, 0, 1)
+
 const projection = ref(null)
 </script>
 
 <template>
   <div>
     <h3> Domino </h3>
-    <CameraController v-model="projection" :position="new Vector3D(40, 40, 40)" :lookdirection="new Vector3D(-1, -1, -1)" :updirection="new Vector3D(0, 0, 1)" :horizontalangle="Math.PI / 8" :viewboxwidth="200" />
+    <CameraController v-model="projection" :position="cameraposition" :lookdirection="cameralookdirection" :updirection="cameraupdirection" :horizontalangle="Math.PI / 8" :viewboxwidth="200" />
     <ViewPlate :width="200" :height="200" :tick="tick" :dominos="dominos" :projection="projection" />
     <Vector3DInput name="position" v-model="position" :minZ="0" :maxZ="20" :step="0.5" />
     <RotateInput name="rotation" v-model="rotation" />
