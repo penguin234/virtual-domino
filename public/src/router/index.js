@@ -52,6 +52,11 @@ const router = createRouter({
           path: 'flooroperating',
           name: 'flooroperating',
           component: () => import('../views/wiki/FloorOperating.vue')
+        },
+        {
+          path: 'dominooperating',
+          name: 'dominooperating',
+          component: () => import('../views/wiki/DominoOperating.vue')
         }
       ]
     },

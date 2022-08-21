@@ -37,5 +37,9 @@ DominoSystem.CheckFloorCollisions = function(domino, surface) {
     return { point: p, velocity: v };
 };
 
+DominoSystem.CheckDominoCollision(d1, d2) {
+    
+}
+
 
 export default DominoSystem;

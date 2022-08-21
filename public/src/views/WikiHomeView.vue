@@ -8,6 +8,7 @@
   <router-link to='/wiki/dominoforced'> dominoforced </router-link> <br>
   <router-link to='/wiki/dominogravity'> dominogravity </router-link> <br>
   <router-link to='/wiki/flooroperating'> flooroperating </router-link> <br>
+  <router-link to='/wiki/dominooperating'> dominooperating </router-link> <br>
 
   <router-view></router-view>
 </template>
