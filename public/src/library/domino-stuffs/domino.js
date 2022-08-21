@@ -126,7 +126,7 @@ Domino.prototype.GetPointVelocity = function(point) {
     return v;
 };
 
-Domino.prototype.GetOverallInteria = function(point, direction) {
+Domino.prototype.GetOverallInertia = function(point, direction) {
     const d = direction.normalize();
     const { p, f } = this.ConvertForceCoord(point, d);
     const axis = p.outerProduct(f);
