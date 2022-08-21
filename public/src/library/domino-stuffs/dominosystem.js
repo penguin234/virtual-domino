@@ -39,7 +39,7 @@ DominoSystem.CheckFloorCollisions = function(domino, surface) {
 
 DominoSystem.CheckDominoCollision = function(d1, d2) {
     
-}
+};
 
 
 export default DominoSystem;

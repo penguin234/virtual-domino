@@ -86,7 +86,7 @@ Domino.prototype.GetAccelerationForce = function(point, direction, acceleration)
     }
     else {
         const I = this.frame.GetI(axis);
-        forceSize = acceleration / (1 / M + point.abs() * point.outerProduct(d).abs() / I);
+        forceSize = acceleration / (1 / M + p.abs() * p.outerProduct(d).abs() / I);
     }
     return d.mult(forceSize);
 };
@@ -125,6 +125,18 @@ Domino.prototype.GetPointVelocity = function(point) {
     let v = p.sub(point);
     return v;
 };
+
+Domino.prototype.GetOverallInteria = function(point, direction) {
+    const d = direction.normalize();
+    const { p, f } = this.ConvertForceCoord(point, d);
+    const axis = p.outerProduct(f);
+    const M = this.frame.mass;
+    if (axis.abs() == 0) {
+        return M;
+    }
+    const I = this.frame.GetI(axis);
+    return 1 / (1 / M + p.abs() * p.innerProduct(f) / I);
+}
 
 
 export default Domino;
